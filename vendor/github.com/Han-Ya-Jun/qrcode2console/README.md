@@ -1,0 +1,2 @@
+# qrcode2console
+链接生成二维码输出到console或者是二维码图片输出到console
