@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/news_watch_notice/pkg/reptile"
-	"github.com/news_watch_notice/pkg/wechat"
+	"news_watch_notice/pkg/reptile"
+	"news_watch_notice/pkg/wechat"
 	"time"
 )
 

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gocolly/colly"
-	"github.com/news_watch_notice/utils"
+	"news_watch_notice/utils"
 	"strings"
 	"time"
 )
