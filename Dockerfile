@@ -13,7 +13,7 @@ RUN pwd
 
 RUN ls
 # Install the package and create test binary
-RUN go install cmd/news_watch_notice.go -o .
+RUN go build cmd/news_watch_notice.go
 
 # Run the executable
 CMD ["news_watch_notice"]
