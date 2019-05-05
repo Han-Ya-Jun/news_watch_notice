@@ -4,11 +4,8 @@ services:
   - docker
 
 before_install:
-  - docker build --no-cache -t ${TRAVIS_REPO_SLUG}:${TRAVIS_COMMIT} .
-  - docker run ${TRAVIS_REPO_SLUG}:${TRAVIS_COMMIT} /go/src/github.com/Han-Ya-Jun/news_watch_notice/news_watch_notice.test
-  - docker run -d -p 127.0.0.1:8000:8000 ${TRAVIS_REPO_SLUG}:${TRAVIS_COMMIT}
+  - docker build --no-cache -t hanyajun/news_watch_notice .
 
 script:
-  - curl 127.0.0.1:8000
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push ${TRAVIS_REPO_SLUG}:${TRAVIS_COMMIT}
+  - docker push hanyajun/news_watch_notice
