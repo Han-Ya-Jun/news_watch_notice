@@ -3,10 +3,10 @@ package wechat
 import (
 	"fmt"
 	"github.com/Han-Ya-Jun/qrcode2console"
+	"github.com/news_watch_notice/utils"
 	e "itchat4go/enum"
 	m "itchat4go/model"
 	s "itchat4go/service"
-	"news_watch_notice/utils"
 	"time"
 )
 
