@@ -11,8 +11,7 @@ COPY . .
 #RUN go get -d -v ./...
 
 # Install the package and create test binary
-RUN go install -v cmd/news_watch_notice -o $GOPATH/src/github.com/Han-Ya-Jun/dist/news_watch_notice
-
+RUN go install -v $GOPATH/src/github.com/Han-Ya-Jun/news_watch_notice/cmd/news_watch_notice.go -o $GOPATH/src/github.com/Han-Ya-Jun/dist/news_watch_notice
 
 # Run the executable
 CMD ["news_watch_notice"]
