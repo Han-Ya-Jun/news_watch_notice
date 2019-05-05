@@ -9,7 +9,8 @@ COPY . .
 # Download all the dependencies
 # https://stackoverflow.com/questions/28031603/what-do-three-dots-mean-in-go-command-line-invocations
 #RUN go get -d -v ./...
-
+RUN pwd
+RUN ls
 # Install the package and create test binary
 RUN go install cmd/news_watch_notice.go
 
