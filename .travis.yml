@@ -6,8 +6,8 @@ services:
 
 
 install:
-  - docker build --no-cache -t hanyajun/news_watch_notice .
+  - make image-dev
 
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push hanyajun/news_watch_notice
+  - make push-dev

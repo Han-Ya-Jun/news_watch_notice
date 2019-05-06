@@ -1,19 +1,9 @@
-FROM golang:1.12-alpine
+FROM alpine:3.6
 
-LABEL maintainer="hanyajun0123@gmail.com"
+MAINTAINER hanyajun0123@gmail.com
+RUN apk update && apk add curl bash tree tzdata \
+    && cp -r -f /usr/share/zoneinfo/Hongkong /etc/localtime
+ADD news_watch_notice /usr/bin/
+ADD news_watch_notice.sha /usr/bin/
 
-# Set the Current Working Directory inside the container
-WORKDIR $GOPATH/src/news_watch_notice
-
-COPY . .
-# Download all the dependencies
-# https://stackoverflow.com/questions/28031603/what-do-three-dots-mean-in-go-command-line-invocations
-#RUN go get -d -v ./...
-RUN pwd
-
-RUN ls
-# Install the package and create test binary
-RUN go build -o dist/news_watch_notice cmd/news_watch_notice.go
-COPY dist/news_watch_notice /usr/bin/
-# Run the executable
 CMD ["news_watch_notice"]
