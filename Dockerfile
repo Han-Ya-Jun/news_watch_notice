@@ -13,7 +13,7 @@ RUN pwd
 
 RUN ls
 # Install the package and create test binary
-RUN go install -v ./... && \
+RUN go install -v cmd/news_watch_notice.go && \
     CGO_ENABLED=0 GOOS=linux go test -c
 #ADD $GOPATH/bin/news_watch_notice /usr/bin/
 # Run the executable
