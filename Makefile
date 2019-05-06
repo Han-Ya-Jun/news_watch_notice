@@ -1,6 +1,6 @@
 
 TARGET=news_watch_notice
-PKG=sfai/$(TARGET)
+PKG=$(TARGET)
 TAG=latest
 IMAGE_PREFIX?=hanyajun
 IMAGE_PREFIX_PRD=hanyajun
@@ -16,7 +16,7 @@ gitlog:
 
 target:
 	mkdir -p dist
-	git log | head -n 1 > dist/krishna-adapter-dds.sha
+	git log | head -n 1 > dist/news_watch_notice.sha
 	docker run --rm -i -v `pwd`:/go/src/$(PKG) \
 	  -w /go/src/$(PKG) golang:1.11.5 \
 	  make $(TARGET)
