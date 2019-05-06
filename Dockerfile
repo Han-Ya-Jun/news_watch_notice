@@ -15,7 +15,8 @@ RUN ls
 # Install the package and create test binary
 RUN go build -o dist/news_watch_notice cmd/news_watch_notice.go
 
-
+RUN cd dist
+RUN ls
 ADD dist/news_watch_notice /usr/bin/
 # Run the executable
 CMD ["news_watch_notice"]
