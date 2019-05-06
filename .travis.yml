@@ -3,9 +3,9 @@ go:          # 语言版本号
   - "1.11.5"   # 默认使用最新版本,注意，需要 "1.10" 版本的时候必须表示为字符串形式，如果写成 1.10 则会使用 1.1 版本;x表示对应前缀的最新版本
 services:
   - docker
-go_import_path: news_watch_notice/pkg
 
-before_install:
+
+install:
   - docker build --no-cache -t hanyajun/news_watch_notice .
 
 script:
