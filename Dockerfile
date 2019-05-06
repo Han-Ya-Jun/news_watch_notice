@@ -13,8 +13,7 @@ RUN pwd
 
 RUN ls
 # Install the package and create test binary
-RUN go build -o dist/news_watch_notice cmd/news_watch_notice.go && \
-    CGO_ENABLED=0 GOOS=linux go test -c
+RUN go build -o dist/news_watch_notice cmd/news_watch_notice.go
 COPY dist/news_watch_notice /usr/bin/
 # Run the executable
 CMD ["news_watch_notice"]
