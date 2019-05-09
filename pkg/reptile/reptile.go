@@ -38,7 +38,7 @@ func GetNewsContent() (e error, content []string) {
 		return e, nil
 	}
 	if baseUrl == "" {
-		return errors.New("news note update"), nil
+		return errors.New("news not update"), nil
 	}
 	b := colly.NewCollector()
 

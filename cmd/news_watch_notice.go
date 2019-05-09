@@ -57,7 +57,6 @@ func main() {
 			err, contentList := reptile.GetNewsContent()
 			if err != nil {
 				fmt.Printf("get newsList err:%v", err)
-				continue
 			} else {
 				flag = true
 				dateTime = time.Now().Format("2006-01-02")
