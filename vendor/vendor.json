@@ -345,6 +345,12 @@
 			"revisionTime": "2019-02-15T20:43:44Z"
 		},
 		{
+			"checksumSHA1": "Q24+t5ryUvt5JJPtPKim1q8hwmI=",
+			"path": "gopkg.in/gomail.v2",
+			"revision": "81ebce5c23dfd25c6c67194b37d3dd3f338c98b1",
+			"revisionTime": "2016-04-11T21:29:32Z"
+		},
+		{
 			"checksumSHA1": "idqFLF0/DdqWF/OnFH57mA4FqXo=",
 			"path": "itchat4go/enum",
 			"revision": "1eabed25c8ed9e5dc174b2ff1915c755f4f64d8f",
