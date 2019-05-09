@@ -13,7 +13,6 @@ import (
 
 func main() {
 	noticeType := utils.GetValueFromEnv("NOTICE_TYPE")
-	noticeType = ""
 	var client *mail.Client
 	var loginMap m.LoginMap
 	var err error
