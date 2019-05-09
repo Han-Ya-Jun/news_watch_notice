@@ -20,8 +20,8 @@ import (
 func GetNewsContent() (e error, content []string) {
 	var baseUrl string
 	c := colly.NewCollector()
-	t := time.Now().Add(-time.Hour * time.Duration(24))
-	data := t.Format("2006-01-02")
+	//t:=time.Now().Add(-time.Hour*time.Duration(24))
+	data := time.Now().Format("2006-01-02")
 	// Find and visit all links
 	c.OnHTML("div > h4 > a", func(e *colly.HTMLElement) {
 		if strings.Contains(e.Text, data) {
