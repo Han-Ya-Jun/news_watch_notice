@@ -101,7 +101,7 @@ func GetSendUsers(contactMap m.LoginMap, uList []string) []string {
 	}
 	for _, user := range userMap {
 		for _, u := range uList {
-			if user.NickName == u {
+			if user.NickName == u && u != "" {
 				fmt.Println(user.NickName)
 				userList = append(userList, user.UserName)
 			}

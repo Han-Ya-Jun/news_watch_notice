@@ -39,12 +39,12 @@ func main() {
 		/* 登陆微信 */
 		err, loginMap = wechat.WechatLogin()
 		noticeWechatUsers := utils.GetValueFromEnv("NOTICE_WECHAT_USERS")
-		userList := strings.Split(noticeWechatUsers, ",")
+		u := strings.Split(noticeWechatUsers, ",")
 		if err != nil {
 			fmt.Printf("login wechat err:%v", err)
 			return
 		}
-		userList = wechat.GetSendUsers(loginMap, userList)
+		userList = wechat.GetSendUsers(loginMap, u)
 	}
 	t := time.Tick(time.Minute * 30)
 	var flag bool
@@ -53,7 +53,7 @@ func main() {
 		/* 爬虫获取新闻 */
 		var content string
 		nowDateTime := time.Now().Format("2006-01-02")
-		if !flag && nowDateTime != dateTime {
+		if !flag || nowDateTime != dateTime {
 			err, contentList := reptile.GetNewsContent()
 			if err != nil {
 				fmt.Printf("get newsList err:%v", err)
