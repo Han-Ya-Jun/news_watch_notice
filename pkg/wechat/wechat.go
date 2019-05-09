@@ -20,18 +20,16 @@ var (
 	uuid string
 	//err        error
 	//loginMap   m.LoginMap
-	//contactMap map[string]m.User
+	contactMap map[string]m.User
 	//groupMap   map[string][]m.User /* 关键字为key的，群组数组 */
 )
 
 func WechatLogin() (err error, loginMap m.LoginMap) {
-
 	/* 从微信服务器获取UUID */
 	uuid, err = s.GetUUIDFromWX()
 	if err != nil {
 		return err, m.LoginMap{}
 	}
-
 	/* 根据UUID获取二维码 */
 	err = s.DownloadImagIntoDir(e.QRCODE_URL+uuid, "./qrcode")
 	if err != nil {
@@ -94,6 +92,25 @@ func WechatLogin() (err error, loginMap m.LoginMap) {
 
 }
 
+func GetSendUsers(contactMap m.LoginMap, uList []string) []string {
+	userList := []string{"filehelper"}
+	userMap, err := s.GetAllContact(&contactMap)
+	if err != nil {
+		fmt.Printf("get userMap err:%v", err)
+		return userList
+	}
+	for _, user := range userMap {
+		for _, u := range uList {
+			if user.NickName == u {
+				fmt.Println(user.NickName)
+				userList = append(userList, user.UserName)
+			}
+		}
+
+	}
+	return userList
+}
+
 func WechatSendMsg(content, toUsername string, loginMap m.LoginMap) error {
 	wxSendMsg := m.WxSendMsg{}
 	wxSendMsg.Type = 1
@@ -108,4 +125,16 @@ func WechatSendMsg(content, toUsername string, loginMap m.LoginMap) error {
 		fmt.Printf("send msg err:%v", err)
 	}
 	return err
+}
+
+func WechatSendMsgs(content string, toUsername []string, loginMap m.LoginMap) error {
+	var errors error
+	for _, t := range toUsername {
+		err := WechatSendMsg(content, t, loginMap)
+		if err != nil {
+			errors = err
+			fmt.Printf("send msg to:%v err:%v", t, err)
+		}
+	}
+	return errors
 }
