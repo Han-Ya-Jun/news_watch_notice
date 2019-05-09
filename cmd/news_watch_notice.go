@@ -68,16 +68,18 @@ func main() {
 				}
 			}
 			/* 推送消息 */
-			if !typeFlag {
-				err = wechat.WechatSendMsgs(content, userList, loginMap)
-			} else {
-				sendObject.Object = "GOCN每日新闻--" + time.Now().Format("2006-01-02")
-				sendObject.Content = content
-				fmt.Println(content)
-				err = client.SendMail(&sendObject)
-			}
-			if err != nil {
-				fmt.Printf("send msg err:%v", err)
+			if content != "" {
+				if !typeFlag {
+					err = wechat.WechatSendMsgs(content, userList, loginMap)
+				} else {
+					sendObject.Object = "GOCN每日新闻--" + time.Now().Format("2006-01-02")
+					sendObject.Content = content
+					fmt.Println(content)
+					err = client.SendMail(&sendObject)
+				}
+				if err != nil {
+					fmt.Printf("send msg err:%v", err)
+				}
 			}
 
 		}
