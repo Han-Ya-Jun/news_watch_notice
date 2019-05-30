@@ -10,7 +10,7 @@ docker run -v /etc/localtime:/etc/localtime:ro \
 - NOTICE_WECHAT_USERS 代表你要通知的好友的昵称，其中自己微信的文件助手是默认会发的，如果有多个好友，以逗号","隔开。
 ![image](http://cdn.hanyajun.com/news_notice_wechat.png)
 ###### 效果
-![image](http://cdn.hanyajun.com/wechat5.png)
+![image](http://cdn.hanyajun.com/20190530_232507_wechat5.png)
 
 **微信通知有个缺点，就是网页版微信只能有一个终端登录**
 ##### 通过邮箱推送
@@ -25,6 +25,6 @@ docker run -v /etc/localtime:/etc/localtime:ro -e NOTICE_TYPE=mail \ //采用邮
 -e NOTICE_MAIL_CC=1581532052@qq.com,hanyajun5876@163.com //发送抄送 hanyajun/news_watch_notice
 ```
 ###### 效果
-![image](http://cdn.hanyajun.com/20190530_232507_wechat5.png)
+![image](http://cdn.hanyajun.com/wechat4.png)
 
 
