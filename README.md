@@ -25,6 +25,6 @@ docker run -v /etc/localtime:/etc/localtime:ro -e NOTICE_TYPE=mail \ //采用邮
 -e NOTICE_MAIL_CC=1581532052@qq.com,hanyajun5876@163.com //发送抄送 hanyajun/news_watch_notice
 ```
 ###### 效果
-![](http://cdn.hanyajun.com/20190530_232507_wechat5.png)
+![image](http://cdn.hanyajun.com/20190530_232507_wechat5.png)
 
 
