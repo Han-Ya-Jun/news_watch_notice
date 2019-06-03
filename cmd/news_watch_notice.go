@@ -5,6 +5,7 @@ import (
 	m "itchat4go/model"
 	"news_watch_notice/pkg/mail"
 	"news_watch_notice/pkg/reptile"
+	"news_watch_notice/pkg/slack"
 	"news_watch_notice/pkg/wechat"
 	"news_watch_notice/utils"
 	"strings"
@@ -18,6 +19,8 @@ func main() {
 	var err error
 	var userList []string
 	var typeFlag bool
+	var slackFlag bool
+	var webHookUrl string
 	var sendObject mail.SendObject
 	if noticeType == utils.TYPENOCICEMAIL {
 		typeFlag = true
@@ -35,6 +38,10 @@ func main() {
 			CcMails:     ccMailList,
 			ContentType: "text/html",
 		}
+	} else if noticeType == utils.TYPENOCTISLACK {
+		typeFlag = true
+		slackFlag = true
+		webHookUrl = utils.GetValueFromEnv("NOTICE_SLACK_WEB_HOOK_URL")
 	} else {
 		/* 登陆微信 */
 		err, loginMap = wechat.WechatLogin()
@@ -61,7 +68,7 @@ func main() {
 				flag = true
 				dateTime = time.Now().Format("2006-01-02")
 				for _, c := range contentList {
-					if typeFlag {
+					if typeFlag && !slackFlag {
 						c = c + "</br>"
 					}
 					content = content + c
@@ -71,6 +78,8 @@ func main() {
 			if content != "" {
 				if !typeFlag {
 					err = wechat.WechatSendMsgs(content, userList, loginMap)
+				} else if slackFlag {
+					err = slack.SenMsgToSlack(webHookUrl, content)
 				} else {
 					sendObject.Object = "GOCN每日新闻--" + time.Now().Format("2006-01-02")
 					sendObject.Content = content

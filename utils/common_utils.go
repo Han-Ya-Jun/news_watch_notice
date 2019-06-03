@@ -14,6 +14,7 @@ import (
 
 const (
 	TYPENOCICEMAIL = "mail"
+	TYPENOCTISLACK = "slack"
 )
 
 //去掉""
