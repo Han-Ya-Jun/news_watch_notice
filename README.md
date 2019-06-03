@@ -1,4 +1,4 @@
-#### 爬取[GoCn每日新闻](https://gocn.vip/explore/category-14)并推送到微信/邮箱
+#### 爬取[GoCn每日新闻](https://gocn.vip/explore/category-14)并推送到微信/邮箱/slack
 ![image](http://cdn.hanyajun.com/news_watch.png)
 #### 使用方法
 ##### 通过微信通知
