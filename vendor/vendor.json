@@ -117,6 +117,13 @@
 			"revisionTime": "2019-04-09T05:09:43Z"
 		},
 		{
+			"checksumSHA1": "W+UDF6H5I7spd9+8iXDbnFGKIo8=",
+			"origin": "github.com/nlopes/slack/vendor/github.com/gorilla/websocket",
+			"path": "github.com/gorilla/websocket",
+			"revision": "835d50e50c9844ae409895496bbc30d224052db2",
+			"revisionTime": "2019-04-17T05:22:11Z"
+		},
+		{
 			"checksumSHA1": "HFu1+LphmHukvAnzsxDjS10fm7E=",
 			"path": "github.com/kennygrant/sanitize",
 			"revision": "06ec0d0dbcd497d01e5189b16f5263f712e61a8e",
@@ -127,6 +134,37 @@
 			"path": "github.com/nfnt/resize",
 			"revision": "83c6a9932646f83e3267f353373d47347b6036b2",
 			"revisionTime": "2018-02-21T19:10:11Z"
+		},
+		{
+			"checksumSHA1": "0MynA1QA4ButZEM4RVaNUmbo2bE=",
+			"path": "github.com/nlopes/slack",
+			"revision": "835d50e50c9844ae409895496bbc30d224052db2",
+			"revisionTime": "2019-04-17T05:22:11Z"
+		},
+		{
+			"checksumSHA1": "3MkevdJFabU5AY+9PARIAvHC4ZE=",
+			"path": "github.com/nlopes/slack/internal/errorsx",
+			"revision": "835d50e50c9844ae409895496bbc30d224052db2",
+			"revisionTime": "2019-04-17T05:22:11Z"
+		},
+		{
+			"checksumSHA1": "Dws5A8XeYZbnfj+pvAsrq38lbO4=",
+			"path": "github.com/nlopes/slack/internal/timex",
+			"revision": "835d50e50c9844ae409895496bbc30d224052db2",
+			"revisionTime": "2019-04-17T05:22:11Z"
+		},
+		{
+			"checksumSHA1": "HETszX3JfRrUuQ+EAqIO0aUFe5Y=",
+			"path": "github.com/nlopes/slack/slackutilsx",
+			"revision": "835d50e50c9844ae409895496bbc30d224052db2",
+			"revisionTime": "2019-04-17T05:22:11Z"
+		},
+		{
+			"checksumSHA1": "iwLqOY6Nr1BitBUex4K0Wep3JL8=",
+			"origin": "github.com/nlopes/slack/vendor/github.com/pkg/errors",
+			"path": "github.com/pkg/errors",
+			"revision": "835d50e50c9844ae409895496bbc30d224052db2",
+			"revisionTime": "2019-04-17T05:22:11Z"
 		},
 		{
 			"checksumSHA1": "9Aoisa7A4d17LuuCjxm8WHrdWOU=",
