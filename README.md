@@ -28,3 +28,14 @@ docker run -v /etc/localtime:/etc/localtime:ro -e NOTICE_TYPE=mail \ //采用邮
 ![image](http://cdn.hanyajun.com/wechat4.png)
 
 
+##### slack webhook发送
+```json
+docker run -d --name gocn-news-notice-slack -v /etc/localtime:/etc/localtime:ro \
+-e NOTICE_TYPE=slack \ //采用slack webhook发送
+-e NOTICE_SLACK_WEB_HOOK_URL=**************  //自己创建的slack app的webhook的url
+hanyajun/news_watch_notice
+
+```
+###### 效果
+
+![image](http://cdn.hanyajun.com/20190604_011032_slack_send.png)
