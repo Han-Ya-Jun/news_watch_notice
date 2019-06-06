@@ -28,7 +28,7 @@ docker run -v /etc/localtime:/etc/localtime:ro -e NOTICE_TYPE=mail \ //采用邮
 ![image](http://cdn.hanyajun.com/wechat4.png)
 
 
-##### slack webhook发送
+##### slack webhook 发送
 ```json
 docker run -d --name gocn-news-notice-slack -v /etc/localtime:/etc/localtime:ro \
 -e NOTICE_TYPE=slack \ //采用slack webhook发送
