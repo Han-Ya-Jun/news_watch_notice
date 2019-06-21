@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	m "itchat4go/model"
+	"news_watch_notice/pkg/github"
 	"news_watch_notice/pkg/mail"
 	"news_watch_notice/pkg/reptile"
 	"news_watch_notice/pkg/slack"
@@ -22,6 +23,8 @@ func main() {
 	var slackFlag bool
 	var webHookUrl string
 	var sendObject mail.SendObject
+	var githubPushFlag bool
+	var githubToken string
 	if noticeType == utils.TYPENOCICEMAIL {
 		typeFlag = true
 		host := utils.GetValueFromEnv("NOTICE_MAIL_HOST")
@@ -53,6 +56,10 @@ func main() {
 		}
 		userList = wechat.GetSendUsers(loginMap, u)
 	}
+	if utils.GetValueFromEnv("GITHUB_PUSH") == utils.GITHUBPUSHFLAG {
+		githubPushFlag = true
+		githubToken = utils.GetValueFromEnv("GITHUB_TOKEN")
+	}
 	t := time.Tick(time.Minute * 30)
 	var flag bool
 	var dateTime string
@@ -61,7 +68,7 @@ func main() {
 		var content string
 		nowDateTime := time.Now().Format("2006-01-02")
 		if !flag || nowDateTime != dateTime {
-			err, contentList := reptile.GetNewsContent()
+			err, contentList := reptile.GetNewsContent(time.Now())
 			if err != nil {
 				fmt.Printf("get newsList err:%v", err)
 			} else {
@@ -76,6 +83,16 @@ func main() {
 			}
 			/* 推送消息 */
 			if content != "" {
+				if githubPushFlag {
+					githubContent := ""
+					for _, c := range contentList {
+						githubContent = githubContent + "- " + c
+					}
+					er := github.PushGithub(githubToken, time.Now(), githubContent)
+					if er != nil {
+						fmt.Printf("push to github err:%v", er.Error())
+					}
+				}
 				if !typeFlag {
 					err = wechat.WechatSendMsgs(content, userList, loginMap)
 				} else if slackFlag {

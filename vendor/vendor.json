@@ -117,6 +117,18 @@
 			"revisionTime": "2019-04-09T05:09:43Z"
 		},
 		{
+			"checksumSHA1": "j+/BUygbzio68Gt36abuDpVlmGo=",
+			"path": "github.com/google/go-github/github",
+			"revision": "477f37dae43aaa76cf83b89dc18250c4ae5cc305",
+			"revisionTime": "2019-06-21T02:59:42Z"
+		},
+		{
+			"checksumSHA1": "ZXja1pB/YvDYcNpkp7AtOm1mhgk=",
+			"path": "github.com/google/go-querystring/query",
+			"revision": "c8c88dbee036db4e4808d1f2ec8c2e15e11c3f80",
+			"revisionTime": "2019-03-18T16:54:38Z"
+		},
+		{
 			"checksumSHA1": "W+UDF6H5I7spd9+8iXDbnFGKIo8=",
 			"origin": "github.com/nlopes/slack/vendor/github.com/gorilla/websocket",
 			"path": "github.com/gorilla/websocket",
@@ -221,6 +233,12 @@
 			"revisionTime": "2018-09-26T15:41:24Z"
 		},
 		{
+			"checksumSHA1": "aFpql3G+Nw8zkzfqLWQJNZC8pu0=",
+			"path": "golang.org/x/net/context/ctxhttp",
+			"revision": "3b0461eec859c4b73bb64fdc8285971fd33e3938",
+			"revisionTime": "2019-06-20T19:42:36Z"
+		},
+		{
 			"checksumSHA1": "O4GftwQF+DBNbFbzQz5sCrm1+2A=",
 			"path": "golang.org/x/net/html",
 			"revision": "4dfa2610cdf3b287375bbba5b8f2a14d3b01d8de",
@@ -237,6 +255,18 @@
 			"path": "golang.org/x/net/html/charset",
 			"revision": "4dfa2610cdf3b287375bbba5b8f2a14d3b01d8de",
 			"revisionTime": "2018-09-26T15:41:24Z"
+		},
+		{
+			"checksumSHA1": "47uPCbcNMPGyjPZjf6nUVEwt9mE=",
+			"path": "golang.org/x/oauth2",
+			"revision": "0f29369cfe4552d0e4bcddc57cc75f4d7e672a33",
+			"revisionTime": "2019-05-07T23:52:07Z"
+		},
+		{
+			"checksumSHA1": "M/wIld2NO0r0VA16gCntGLaD/SY=",
+			"path": "golang.org/x/oauth2/internal",
+			"revision": "0f29369cfe4552d0e4bcddc57cc75f4d7e672a33",
+			"revisionTime": "2019-05-07T23:52:07Z"
 		},
 		{
 			"checksumSHA1": "tqqo7DEeFCclb58XbN44WwdpWww=",
