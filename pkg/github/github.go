@@ -30,6 +30,13 @@ func PushGithub(token string, publish time.Time, contentList string) error {
 	content := &github.RepositoryContentFileOptions{
 		Message: &c,
 		SHA:     &sha,
+		Committer: &github.CommitAuthor{
+			Date:  &publish,
+			Name:  github.String("Han-Ya-Jun"),
+			Email: github.String("1581532052@qq.com"),
+			Login: github.String("hanyajun"),
+		},
+		Branch: github.String("master"),
 	}
 	op := &github.RepositoryContentGetOptions{}
 	repo, _, _, er := client.Repositories.GetContents(ctx, "Han-Ya-Jun", "gocn_news_set", "README.md", op)
