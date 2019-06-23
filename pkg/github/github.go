@@ -32,9 +32,15 @@ func PushGithub(token string, publish time.Time, contentList string) error {
 		SHA:     &sha,
 		Committer: &github.CommitAuthor{
 			Date:  &publish,
-			Name:  github.String("Han-Ya-Jun"),
+			Name:  github.String("hanyajun"),
 			Email: github.String("1581532052@qq.com"),
-			Login: github.String("hanyajun"),
+			Login: github.String("Han-Ya-Jun"),
+		},
+		Author: &github.CommitAuthor{
+			Date:  &publish,
+			Name:  github.String("hanyajun"),
+			Email: github.String("1581532052@qq.com"),
+			Login: github.String("Han-Ya-Jun"),
 		},
 		Branch: github.String("master"),
 	}
