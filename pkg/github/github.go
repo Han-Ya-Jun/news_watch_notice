@@ -26,17 +26,18 @@ func PushGithub(token string, publish time.Time, contentList string) error {
 	client := github.NewClient(tc)
 	c := "add gocn news--" + publish.Format("2006-01-02")
 	sha := ""
+	ti := time.Now()
 	content := &github.RepositoryContentFileOptions{
 		Message: &c,
 		SHA:     &sha,
 		Committer: &github.CommitAuthor{
-			Date:  &publish,
+			Date:  &ti,
 			Name:  github.String("hanyajun"),
 			Email: github.String("1581532052@qq.com"),
 			Login: github.String("Han-Ya-Jun"),
 		},
 		Author: &github.CommitAuthor{
-			Date:  &publish,
+			Date:  &ti,
 			Name:  github.String("hanyajun"),
 			Email: github.String("1581532052@qq.com"),
 			Login: github.String("Han-Ya-Jun"),
