@@ -115,7 +115,7 @@ func PushGithub(token string, publish time.Time, contentList string) error {
 		println(err)
 		return err
 	}
-	println(cResult)
+	println(fmt.Sprintf("%v", cResult))
 	return nil
 
 }
