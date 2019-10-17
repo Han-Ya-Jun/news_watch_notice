@@ -58,7 +58,7 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 			matched := title2.FindAllStringSubmatchIndex(e.Text, -1)
 			indexList := rm.FindAllStringSubmatchIndex(e.Text, -1)
 			for i, v := range matched {
-				if v[0] <= indexList[len(indexList)-1][1] && i < utils.GetMin(len(indexList),len(matched)-1)-1 {
+				if v[0] <= indexList[len(indexList)-1][1] && i < utils.GetMin(len(indexList),len(matched))-1 {
 					content := e.Text[v[0]:matched[i+1][0]]
 					contentList = append(contentList, content+"\n")
 				}else{
