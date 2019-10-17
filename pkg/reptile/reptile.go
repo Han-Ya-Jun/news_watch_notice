@@ -48,7 +48,7 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 	b := colly.NewCollector()
 
 	// Find and visit all links
-	contentList := make([]string, 15)
+	var contentList []string
 	b.OnHTML("div.mod-body > div", func(e *colly.HTMLElement) {
 		if e.Text != "" {
 			reg := "[a-zA-z]+://[^\\s]*"

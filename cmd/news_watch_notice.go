@@ -75,6 +75,9 @@ func main() {
 				flag = true
 				dateTime = time.Now().Format("2006-01-02")
 				for _, c := range contentList {
+					if typeFlag && !slackFlag {
+						c = c + "</br>"
+					}
 					content = content + c
 				}
 			}
