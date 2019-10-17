@@ -64,7 +64,7 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 						content = strings.Split(content, "编辑:")[0]
 						flag = true
 					}
-					contentList = append(contentList, content+"")
+					contentList = append(contentList, content+"\n")
 					if flag{
 						break
 					}
