@@ -65,7 +65,7 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 					content := e.Text[v[0]:]
 					if strings.Contains(content, "编辑:") {
 						index:=strings.Index(content,"编辑:")
-						content= e.Text[v[0]:index]
+						content= content[:index]
 					}
 				}
 			}
