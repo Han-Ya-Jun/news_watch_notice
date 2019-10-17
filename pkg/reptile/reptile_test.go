@@ -1,7 +1,9 @@
 package reptile
 
 import (
+	"fmt"
 	"testing"
+	"time"
 )
 
 /*
@@ -12,6 +14,9 @@ import (
  */
 
 func Test_GetNewsContent(t *testing.T) {
+	publishTime := time.Now()
+	_, contents := GetNewsContent(publishTime)
+	fmt.Println(contents)
 
 }
 
