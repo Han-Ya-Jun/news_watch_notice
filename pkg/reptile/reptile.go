@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gocolly/colly"
 	"news_watch_notice/utils"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -71,14 +72,29 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 			break
 		}
 	}
+	//	 div.mod-body > div > p > br:nth-child(2)
 	if !flag {
 		c := colly.NewCollector()
-		c.OnHTML("div.mod-body > div > p", func(e *colly.HTMLElement) {
-			if e.Text != "" {
-				contentList[i] = utils.TrimQuotes(fmt.Sprintf("%d. %s\n\n", i+1, e.Text))
-				i++
-				fmt.Printf("%d:%q\n", i, utils.TrimQuotes(fmt.Sprintf("%d. %s\n\n", i+1, e.Text)))
+		c.OnHTML("div.mod-body > div", func(e *colly.HTMLElement) {
+			reg := "[a-zA-z]+://[^\\s]*"
+			title := "[1-9]\\."
+			rm, _ := regexp.Compile(reg)
+			title2, _ := regexp.Compile(title)
+			contentList = rm.FindAllString(e.Text, -1)
+			matched := title2.FindAllStringSubmatchIndex(e.Text, -1)
+			indexList := rm.FindAllStringSubmatchIndex(e.Text, -1)
+			for i, v := range matched[:len(matched)-1] {
+
+				if v[0] < indexList[len(indexList)-1][1] {
+					content := e.Text[v[0]:matched[i+1][0]]
+					if strings.Contains(content, "编辑:") {
+						content = strings.Split(content, "编辑:")[0]
+						flag = true
+					}
+					contentList = append(contentList, content)
+				}
 			}
+
 		})
 		c.OnRequest(func(r *colly.Request) {
 			fmt.Println("Visiting", r.URL)
@@ -89,5 +105,4 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 		}
 	}
 	return nil, contentList
-
 }
