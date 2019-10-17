@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	m "github.com/newflydd/itchat4go/model"
+	m "itchat4go/model"
 	"news_watch_notice/pkg/github"
 	"news_watch_notice/pkg/mail"
 	"news_watch_notice/pkg/reptile"
