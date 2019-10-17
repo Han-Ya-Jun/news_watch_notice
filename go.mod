@@ -14,6 +14,7 @@ require (
 	github.com/google/go-github v17.0.0+incompatible
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/kennygrant/sanitize v1.2.4 // indirect
+	github.com/newflydd/itchat4go v0.0.0-20171212161254-1eabed25c8ed
 	github.com/nlopes/slack v0.6.0
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
 	github.com/skip2/go-qrcode v0.0.0-20190110000554-dc11ecdae0a9 // indirect

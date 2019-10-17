@@ -35,6 +35,10 @@ github.com/google/go-querystring/query
 github.com/gorilla/websocket
 # github.com/kennygrant/sanitize v1.2.4
 github.com/kennygrant/sanitize
+# github.com/newflydd/itchat4go v0.0.0-20171212161254-1eabed25c8ed
+github.com/newflydd/itchat4go/model
+github.com/newflydd/itchat4go/enum
+github.com/newflydd/itchat4go/service
 # github.com/nlopes/slack v0.6.0
 github.com/nlopes/slack
 github.com/nlopes/slack/internal/errorsx
