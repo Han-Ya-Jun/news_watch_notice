@@ -54,7 +54,6 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 			title := "[1-9]\\."
 			rm, _ := regexp.Compile(reg)
 			title2, _ := regexp.Compile(title)
-			contentList = rm.FindAllString(e.Text, -1)
 			matched := title2.FindAllStringSubmatchIndex(e.Text, -1)
 			indexList := rm.FindAllStringSubmatchIndex(e.Text, -1)
 			var flag bool
