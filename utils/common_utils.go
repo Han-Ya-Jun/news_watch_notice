@@ -44,3 +44,11 @@ func StrToInt(str string) int {
 	int, _ := strconv.Atoi(str)
 	return int
 }
+
+
+func GetMin(a,b int)int{
+	if a>b{
+		return b
+	}
+	return a
+}
