@@ -60,6 +60,7 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 			fmt.Println(matched)
 			indexList := rm.FindAllStringSubmatchIndex(e.Text, -1)
 			fmt.Println(indexList)
+			fmt.Println(e.Text[indexList[0][0]:e.Text[indexList[0][1]]])
 			index:=strings.Index(e.Text,"编辑:")
 			for i, v := range matched {
 				if v[0] <=index && i < len(matched)-1 {
