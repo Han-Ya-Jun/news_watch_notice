@@ -54,8 +54,10 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 			title := "[1-5]\\."
 			rm, _ := regexp.Compile(reg)
 			title2, _ := regexp.Compile(title)
+			fmt.Println(e.Text)
+			fmt.Println("***********************************************************")
 			matched := title2.FindAllStringSubmatchIndex(e.Text, -1)
-			fmt.Println(title2)
+			fmt.Println(matched)
 			indexList := rm.FindAllStringSubmatchIndex(e.Text, -1)
 			fmt.Println(indexList)
 			index:=strings.Index(e.Text,"编辑:")
