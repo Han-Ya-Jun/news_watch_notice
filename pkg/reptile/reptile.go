@@ -56,6 +56,7 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 			rm, _ := regexp.Compile(reg)
 			title2, _ := regexp.Compile(title)
 			matched := title2.FindAllStringSubmatchIndex(e.Text, -1)
+			fmt.Println(e.Text)
 			fmt.Println("******************.")
 			fmt.Println(matched)
 			fmt.Println("****************url")
