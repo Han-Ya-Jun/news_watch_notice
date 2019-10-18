@@ -79,6 +79,7 @@ func main() {
 						c = c + "</br>"
 					}
 					content = content + c
+					fmt.Println(c)
 				}
 			}
 			/* 推送消息 */
