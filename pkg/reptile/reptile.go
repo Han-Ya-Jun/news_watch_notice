@@ -50,7 +50,7 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 	var contentList []string
 	b.OnHTML("div.mod-body > div", func(e *colly.HTMLElement) {
 		if e.Text != "" {
-			reg := "[a-zA-z]+://[^\\s]*"
+			reg := "^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$"
 			title := "[1-5]\\."
 			rm, _ := regexp.Compile(reg)
 			title2, _ := regexp.Compile(title)
