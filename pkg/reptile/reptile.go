@@ -50,42 +50,40 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 	var contentList []string
 	b.OnHTML("div.mod-body > div", func(e *colly.HTMLElement) {
 		if e.Text != "" {
+			contentAll:=trimHtml(e.Text)
 			reg := "[a-zA-z]+://[^\\s]*"
 			title := "[1-5]\\."
+			var index int
+			if strings.Contains(contentAll,"编辑:"){
+				index = strings.Index(contentAll, "编辑:")
+				contentAll=contentAll[:index]
+			}
 			rm, _ := regexp.Compile(reg)
 			title2, _ := regexp.Compile(title)
-			fmt.Println(e.Text)
-			fmt.Println("***********************************************************")
-			matched := title2.FindAllStringSubmatchIndex(e.Text, -1)
-			fmt.Println(matched)
-			indexList := rm.FindAllStringSubmatchIndex(e.Text, -1)
-			urls := rm.FindAllString(e.Text, -1)
-			fmt.Printf("urls:%v\n", urls)
-			fmt.Println("***********************************************************")
-			fmt.Println(indexList)
-			fmt.Println("***********************************************************")
-			index := strings.Index(e.Text, "编辑:")
+			matched := title2.FindAllStringSubmatchIndex(contentAll, -1)
+			exitMap:= make(map[string][]int)
 			var matchedNew [][]int
-			for i,v := range matched{
-				if v[0]> indexList[len(indexList)-1][0]{
-					break
-				}
-				if i>0 && v[0]<=indexList[i-1][0]{
-					continue
-				}else{
-					matchedNew=append(matchedNew,v)
+			for _, match := range matched {
+				fmt.Println(match)
+				fmt.Println(contentAll[match[0]:match[1]])
+				if _,ok := exitMap[contentAll[match[0]:match[1]]];!ok {
+					exitMap[contentAll[match[0]:match[1]]]=match
+					matchedNew=append(matchedNew, match)
 				}
 			}
+			fmt.Println(matched)
+			indexList := rm.FindAllStringSubmatchIndex(contentAll, -1)
+			fmt.Println(indexList)
 			for i, v := range matchedNew {
-				if v[0] <= index && i < len(matchedNew)-1 {
-					content := e.Text[v[0]:matchedNew[i+1][0]]
-					if strings.Contains(content, "编辑:") {
-						index := strings.Index(content, "编辑:")
-						content = content[:index]
+				if v[0] <= index {
+					if i<len(matchedNew)-1{
+						content := contentAll[v[0]:matchedNew[i+1][0]]
+						contentList = append(contentList, content+"\n")
+					}else{
+						content := contentAll[v[0]:index]
 						contentList = append(contentList, content+"\n")
 						break
 					}
-					contentList = append(contentList, content+"\n")
 				}
 			}
 			for _, content := range contentList {
