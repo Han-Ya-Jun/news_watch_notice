@@ -50,7 +50,7 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 	var contentList []string
 	b.OnHTML("div.mod-body > div", func(e *colly.HTMLElement) {
 		if e.Text != "" {
-			e.Text=trimHtml(e.Text)
+			e.Text = trimHtml(e.Text)
 			reg := "[a-zA-z]+://[^\\s]*"
 			title := "[1-5]\\."
 			rm, _ := regexp.Compile(reg)
@@ -92,7 +92,6 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 	return nil, contentList
 }
 
-
 func trimHtml(src string) string {
 	//将HTML标签全转换成小写
 	re, _ := regexp.Compile("\\<[\\S\\s]+?\\>")
@@ -109,5 +108,8 @@ func trimHtml(src string) string {
 	//去除连续的换行符
 	re, _ = regexp.Compile("\\s{2,}")
 	src = re.ReplaceAllString(src, "\n")
+
+	re, _ = regexp.Compile("\\s")
+	src = re.ReplaceAllString(src, "")
 	return strings.TrimSpace(src)
 }
