@@ -67,12 +67,17 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 			fmt.Println("***********************************************************")
 			fmt.Println(e.Text[indexList[0][0]:indexList[0][1]])
 			index := strings.Index(e.Text, "编辑:")
-			for i, v := range matched {
-				if v[0]<= indexList[i][1]{
+			var matchedNew [][]int
+			for i,v := range matched{
+				if i>0 && v[0]<=indexList[i-1][0]{
 					continue
+				}else{
+					matchedNew=append(matchedNew,v)
 				}
-				if v[0] <= index && i < len(matched)-1 {
-					content := e.Text[v[0]:matched[i+1][0]]
+			}
+			for i, v := range matchedNew {
+				if v[0] <= index && i < len(matchedNew)-1 {
+					content := e.Text[v[0]:matchedNew[i+1][0]]
 					if strings.Contains(content, "编辑:") {
 						index := strings.Index(content, "编辑:")
 						content = content[:index]
