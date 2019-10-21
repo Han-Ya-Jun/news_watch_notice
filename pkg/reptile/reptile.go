@@ -68,6 +68,9 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 			fmt.Println(e.Text[indexList[0][0]:indexList[0][1]])
 			index := strings.Index(e.Text, "编辑:")
 			for i, v := range matched {
+				if v[0]<= indexList[i][1]{
+					continue
+				}
 				if v[0] <= index && i < len(matched)-1 {
 					content := e.Text[v[0]:matched[i+1][0]]
 					if strings.Contains(content, "编辑:") {
@@ -104,10 +107,10 @@ func trimHtml(src string) string {
 	src = re.ReplaceAllString(src, "")
 	//去除所有尖括号内的HTML代码，并换成换行符
 	re, _ = regexp.Compile("\\<[\\S\\s]+?\\>")
-	src = re.ReplaceAllString(src, "\n")
+	src = re.ReplaceAllString(src, "")
 	//去除连续的换行符
 	re, _ = regexp.Compile("\\s{2,}")
-	src = re.ReplaceAllString(src, "\n")
+	src = re.ReplaceAllString(src, "")
 
 	re, _ = regexp.Compile("\\s")
 	src = re.ReplaceAllString(src, "")
