@@ -68,7 +68,7 @@ func main() {
 		var content string
 		nowDateTime := time.Now().Format("2006-01-02")
 		if !flag || nowDateTime != dateTime {
-			err, contentList := reptile.GetNewsContent(time.Now())
+			err, contentList := reptile.GetNewsContent(time.Now().Add(time.Hour *-24))
 			if err != nil {
 				fmt.Printf("get newsList err:%v", err)
 			} else {
