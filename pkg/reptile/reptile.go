@@ -50,7 +50,6 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 	var contentList []string
 	b.OnHTML("div.mod-body > div", func(e *colly.HTMLElement) {
 		if e.Text != "" {
-			e.Text = trimHtml(e.Text)
 			reg := "[a-zA-z]+://[^\\s]*"
 			title := "[1-5]\\."
 			rm, _ := regexp.Compile(reg)
@@ -65,7 +64,6 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 			fmt.Println("***********************************************************")
 			fmt.Println(indexList)
 			fmt.Println("***********************************************************")
-			fmt.Println(e.Text[indexList[0][0]:indexList[0][1]])
 			index := strings.Index(e.Text, "编辑:")
 			var matchedNew [][]int
 			for i,v := range matched{
