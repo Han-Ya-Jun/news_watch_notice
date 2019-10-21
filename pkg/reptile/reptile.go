@@ -61,7 +61,7 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 			matched := title2.FindAllStringSubmatchIndex(e.Text, -1)
 			fmt.Println(matched)
 			indexList := rm.FindAllStringSubmatchIndex(e.Text, -1)
-			urls := rm.FindAllStringSubmatchIndex(e.Text, -1)
+			urls := rm.FindAllString(e.Text, -1)
 			fmt.Printf("urls:%v\n", urls)
 			fmt.Println("***********************************************************")
 			fmt.Println(indexList)
