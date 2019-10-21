@@ -88,6 +88,9 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 					contentList = append(contentList, content+"\n")
 				}
 			}
+			for _, content := range contentList {
+				fmt.Println(content)
+			}
 		}
 	})
 	b.OnRequest(func(r *colly.Request) {
