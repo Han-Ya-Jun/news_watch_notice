@@ -110,7 +110,7 @@ func main() {
 						if er != nil {
 							fmt.Printf("push to github err:%v", er.Error())
 						}
-						er = github.PushGithub(githubToken, time.Now(), githubContent, "golang-notes")
+						er = github.PushGithub(githubToken, time.Now(), githubContent, "golang_notes")
 						if er != nil {
 							fmt.Printf("push to github err:%v", er.Error())
 						}
@@ -128,11 +128,19 @@ func main() {
 				} else if slackFlag {
 					if content != "" {
 						err = slack.SenMsgToSlack(webHookUrl, content, "gocn")
-						fmt.Println(err)
+						if err != nil {
+							println("push github gocn  err:%v", err)
+						} else {
+							println("push  github  success")
+						}
 					}
 					if studyContent != "" {
 						err = slack.SenMsgToSlack(webHookUrl, studyContent, "")
-						fmt.Println(err)
+						if err != nil {
+							println("push github  golang  err:%v", err)
+						} else {
+							println("push  github golang  success")
+						}
 					}
 
 				} else {
@@ -141,14 +149,22 @@ func main() {
 						sendObject.Content = content
 						fmt.Println(content)
 						err = client.SendMail(&sendObject)
-						fmt.Print(err)
+						if err != nil {
+							println("send mail err:%v", err)
+						} else {
+							println("send mail success")
+						}
 					}
 					if studyContent != "" {
 						sendObject.Object = "go语言中文网-每日资讯--" + time.Now().Format("2006-01-02")
 						sendObject.Content = studyContent
 						fmt.Println(studyContent)
 						err = client.SendMail(&sendObject)
-						fmt.Print(err)
+						if err != nil {
+							println("send mail err:%v", err)
+						} else {
+							println("send mail success")
+						}
 					}
 
 				}
