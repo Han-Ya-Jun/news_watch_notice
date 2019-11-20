@@ -39,3 +39,5 @@ hanyajun/news_watch_notice
 ###### 效果
 
 ![image](http://cdn.hanyajun.com/20190604_011032_slack_send.png)
+
+![2019-11-20-18-18-48](http://cdn.hanyajun.com/2019-11-20-18-18-48.png)
