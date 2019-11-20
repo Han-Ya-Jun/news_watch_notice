@@ -8,6 +8,9 @@ import (
 	"news_watch_notice/pkg/reptile"
 	"news_watch_notice/pkg/slack"
 	"news_watch_notice/pkg/wechat"
+
+	md "github.com/russross/blackfriday"
+
 	"news_watch_notice/utils"
 	"strings"
 	"time"
@@ -61,24 +64,27 @@ func main() {
 		githubToken = utils.GetValueFromEnv("GITHUB_TOKEN")
 	}
 	t := time.Tick(time.Minute * 30)
+
+	var gocnDateTime string
+	var studyDateTime string
+	var totalDateTime string
 	var flag bool
-	var dateTime string
 	for {
 		/* 爬虫获取新闻 */
 		var content string
 		var studyContent string
+		var gocnFlag bool
+		var studyGolangFlag bool
 		nowDateTime := time.Now().Format("2006-01-02")
-		if !flag || nowDateTime != dateTime {
-			var gocnFlag bool
-			var studyGolangFlag bool
+		if !flag || totalDateTime != nowDateTime {
 			var contentList []string
-			if !gocnFlag {
+			if !gocnFlag || gocnDateTime != nowDateTime {
 				err, contentList = reptile.GetNewsContent(time.Now())
 				if err != nil {
 					fmt.Printf("get newsList err:%v", err)
 				} else {
 					gocnFlag = true
-					dateTime = time.Now().Format("2006-01-02")
+					gocnDateTime = time.Now().Format("2006-01-02")
 					for _, c := range contentList {
 						if typeFlag && !slackFlag {
 							c = c + "</br>"
@@ -88,16 +94,19 @@ func main() {
 					}
 				}
 			}
-			if !studyGolangFlag {
+			if !studyGolangFlag || studyDateTime != nowDateTime {
 				err, studyContent = reptile.GetStudyGolangContent(time.Now())
 				if err != nil {
 					fmt.Printf("get newsList err:%v", err)
 				} else {
 					gocnFlag = true
-					dateTime = time.Now().Format("2006-01-02")
+					studyDateTime = time.Now().Format("2006-01-02")
 				}
 			}
 			flag = gocnFlag && studyGolangFlag
+			if flag {
+				totalDateTime = time.Now().Format("2006-01-02")
+			}
 			/* 推送消息 */
 			if content != "" || studyContent != "" {
 				if githubPushFlag {
@@ -109,17 +118,30 @@ func main() {
 						er := github.PushGithub(githubToken, time.Now(), githubContent, "gocn")
 						if er != nil {
 							fmt.Printf("push to github err:%v", er.Error())
+						} else {
+							fmt.Printf("push gocn_news_set success\n")
 						}
 						er = github.PushGithub(githubToken, time.Now(), githubContent, "golang_notes")
 						if er != nil {
 							fmt.Printf("push to github err:%v", er.Error())
+						} else {
+							fmt.Printf("push gocn_news to golang_notes success\n")
 						}
 					}
 					if studyContent != "" {
 						er := github.PushGithub(githubToken, time.Now(), studyContent, "study_golang")
 						if er != nil {
 							fmt.Printf("push to github err:%v", er.Error())
+						} else {
+							fmt.Printf("push to golang_notes success")
 						}
+						er = github.PushGithub(githubToken, time.Now(), studyContent, "gocn_golang")
+						if er != nil {
+							fmt.Printf("push to github err:%v", er.Error())
+						} else {
+							fmt.Printf("push to gocn_golang  success")
+						}
+
 					}
 
 				}
@@ -157,8 +179,9 @@ func main() {
 					}
 					if studyContent != "" {
 						sendObject.Object = "go语言中文网-每日资讯--" + time.Now().Format("2006-01-02")
-						sendObject.Content = studyContent
 						fmt.Println(studyContent)
+						result := md.Run([]byte(studyContent))
+						sendObject.Content = string(result)
 						err = client.SendMail(&sendObject)
 						if err != nil {
 							fmt.Printf("send mail err:%v", err.Error())

@@ -6,6 +6,8 @@ import (
 	"time"
 
 	"news_watch_notice/pkg/reptile"
+
+	md "github.com/russross/blackfriday"
 )
 
 /*
@@ -17,5 +19,8 @@ import (
 func TestSenMsgToSlack(t *testing.T) {
 	_, content := reptile.GetStudyGolangContent(time.Now().Add(time.Hour * -24))
 	fmt.Println(content)
-	SenMsgToSlack("https://hooks.slack.com/services/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", content, "")
+	output := md.Run([]byte(content))
+	fmt.Println(string(output))
+
+	//SenMsgToSlack("https://hooks.slack.com/services/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", content, "")
 }

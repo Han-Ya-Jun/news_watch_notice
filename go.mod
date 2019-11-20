@@ -16,6 +16,7 @@ require (
 	github.com/karriereat/blackfriday-slack v0.1.0
 	github.com/kennygrant/sanitize v1.2.4 // indirect
 	github.com/nlopes/slack v0.6.0
+	github.com/russross/blackfriday v2.0.0+incompatible
 	github.com/russross/blackfriday/v2 v2.0.1
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
 	github.com/skip2/go-qrcode v0.0.0-20190110000554-dc11ecdae0a9 // indirect
