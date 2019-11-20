@@ -68,13 +68,13 @@ func main() {
 	var gocnDateTime string
 	var studyDateTime string
 	var totalDateTime string
+	var gocnFlag bool
+	var studyGolangFlag bool
 	var flag bool
 	for {
 		/* 爬虫获取新闻 */
 		var content string
 		var studyContent string
-		var gocnFlag bool
-		var studyGolangFlag bool
 		nowDateTime := time.Now().Format("2006-01-02")
 		if !flag || totalDateTime != nowDateTime {
 			var contentList []string
@@ -99,7 +99,7 @@ func main() {
 				if err != nil {
 					fmt.Printf("get newsList err:%v", err)
 				} else {
-					gocnFlag = true
+					studyGolangFlag = true
 					studyDateTime = time.Now().Format("2006-01-02")
 				}
 			}
@@ -197,6 +197,7 @@ func main() {
 			}
 
 		}
+		fmt.Printf("flag:%v,gocnDateTime:%v,studyDateTime:%v,totalDateTime:%v,gocnFlag:%v,studyGolangFlag:%v\n", flag, gocnDateTime, studyDateTime, totalDateTime, gocnFlag, studyGolangFlag)
 		<-t
 	}
 
