@@ -1,5 +1,7 @@
-#### 爬取[GoCn每日新闻](https://gocn.vip/explore/category-14)并推送到微信/邮箱/slack
+#### 爬取[GoCn每日新闻](https://gocn.vip/explore/category-14)和[go语言中文网(每日资讯)](https://studygolang.com/go/godaily)并推送到微信/邮箱/slack
 ![image](http://cdn.hanyajun.com/news_watch.png)
+
+![2019-11-20-18-21-29](http://cdn.hanyajun.com/2019-11-20-18-21-29.png)
 #### 使用方法
 ##### 通过微信通知
 
@@ -27,6 +29,7 @@ docker run -v /etc/localtime:/etc/localtime:ro -e NOTICE_TYPE=mail \ //采用邮
 ###### 效果
 ![image](http://cdn.hanyajun.com/wechat4.png)
 
+![2019-11-20-18-26-23](http://cdn.hanyajun.com/2019-11-20-18-26-23.png)
 
 ##### slack webhook 发送
 ```json
@@ -39,3 +42,5 @@ hanyajun/news_watch_notice
 ###### 效果
 
 ![image](http://cdn.hanyajun.com/20190604_011032_slack_send.png)
+
+![2019-11-20-18-18-48](http://cdn.hanyajun.com/2019-11-20-18-18-48.png)
