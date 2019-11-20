@@ -66,43 +66,89 @@ func main() {
 	for {
 		/* 爬虫获取新闻 */
 		var content string
+		var studyContent string
 		nowDateTime := time.Now().Format("2006-01-02")
 		if !flag || nowDateTime != dateTime {
-			err, contentList := reptile.GetNewsContent(time.Now().Add(time.Hour *-48))
-			if err != nil {
-				fmt.Printf("get newsList err:%v", err)
-			} else {
-				flag = true
-				dateTime = time.Now().Format("2006-01-02")
-				for _, c := range contentList {
-					if typeFlag && !slackFlag {
-						c = c + "</br>"
+			var gocnFlag bool
+			var studyGolangFlag bool
+			var contentList []string
+			if !gocnFlag {
+				err, contentList = reptile.GetNewsContent(time.Now())
+				if err != nil {
+					fmt.Printf("get newsList err:%v", err)
+				} else {
+					gocnFlag = true
+					dateTime = time.Now().Format("2006-01-02")
+					for _, c := range contentList {
+						if typeFlag && !slackFlag {
+							c = c + "</br>"
+						}
+						content = content + c
+						fmt.Println(c)
 					}
-					content = content + c
-					fmt.Println(c)
 				}
 			}
+			if !studyGolangFlag {
+				err, studyContent = reptile.GetStudyGolangContent(time.Now())
+				if err != nil {
+					fmt.Printf("get newsList err:%v", err)
+				} else {
+					gocnFlag = true
+					dateTime = time.Now().Format("2006-01-02")
+				}
+			}
+			flag = gocnFlag && studyGolangFlag
 			/* 推送消息 */
-			if content != "" {
+			if content != "" || studyContent != "" {
 				if githubPushFlag {
-					githubContent := ""
-					for _, c := range contentList {
-						githubContent = githubContent + "- " + c
+					if content != "" {
+						githubContent := ""
+						for _, c := range contentList {
+							githubContent = githubContent + "- " + c
+						}
+						er := github.PushGithub(githubToken, time.Now(), githubContent, "gocn")
+						if er != nil {
+							fmt.Printf("push to github err:%v", er.Error())
+						}
+						er = github.PushGithub(githubToken, time.Now(), githubContent, "golang-notes")
+						if er != nil {
+							fmt.Printf("push to github err:%v", er.Error())
+						}
 					}
-					er := github.PushGithub(githubToken, time.Now(), githubContent)
-					if er != nil {
-						fmt.Printf("push to github err:%v", er.Error())
+					if studyContent != "" {
+						er := github.PushGithub(githubToken, time.Now(), studyContent, "study_golang")
+						if er != nil {
+							fmt.Printf("push to github err:%v", er.Error())
+						}
 					}
+
 				}
 				if !typeFlag {
 					err = wechat.WechatSendMsgs(content, userList, loginMap)
 				} else if slackFlag {
-					err = slack.SenMsgToSlack(webHookUrl, content)
+					if content != "" {
+						err = slack.SenMsgToSlack(webHookUrl, content, "gocn")
+						fmt.Println(err)
+					}
+					if studyContent != "" {
+						err = slack.SenMsgToSlack(webHookUrl, studyContent, "")
+						fmt.Println(err)
+					}
+
 				} else {
-					sendObject.Object = "GOCN每日新闻--" + time.Now().Format("2006-01-02")
-					sendObject.Content = content
-					fmt.Println(content)
-					err = client.SendMail(&sendObject)
+					if content != "" {
+						sendObject.Object = "GOCN每日新闻--" + time.Now().Format("2006-01-02")
+						sendObject.Content = content
+						fmt.Println(content)
+						err = client.SendMail(&sendObject)
+					}
+					if studyContent != "" {
+						sendObject.Object = "go语言中文网-每日资讯--" + time.Now().Format("2006-01-02")
+						sendObject.Content = studyContent
+						fmt.Println(studyContent)
+						err = client.SendMail(&sendObject)
+					}
+
 				}
 				if err != nil {
 					fmt.Printf("send msg err:%v", err)

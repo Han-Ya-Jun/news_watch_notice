@@ -4,11 +4,12 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
-	"github.com/google/go-github/github"
-	"golang.org/x/oauth2"
 	"log"
 	"strings"
 	"time"
+
+	"github.com/google/go-github/github"
+	"golang.org/x/oauth2"
 )
 
 /*
@@ -17,7 +18,7 @@ import (
 * @Name:github
 * @Function: 抓取推送到github上去
  */
-func PushGithub(token string, publish time.Time, contentList string) error {
+func PushGithub(token string, publish time.Time, contentList string, from string) error {
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: token},
@@ -41,8 +42,30 @@ func PushGithub(token string, publish time.Time, contentList string) error {
 		},
 		Branch: github.String("master"),
 	}
+	var rep string
+	var path string
+	var sepTitle string
+	var sep string
+	var title string
+	if from == "gocn" {
+		rep = "gocn_news_set"
+		path = "README.md"
+		sepTitle = "#"
+		title = " gocn_news_"
+		sep = "##"
+	} else {
+		rep = "golang-notes"
+		path = "gocn_news_" + fmt.Sprintf("%d", time.Now().Year()) + ".md"
+		sepTitle = "#"
+		sep = "##"
+		if from == "golang_notes" {
+			title = " gocn_news_"
+		} else {
+			title = " go语言中文网(每日资讯)_"
+		}
+	}
 	op := &github.RepositoryContentGetOptions{}
-	repo, _, _, er := client.Repositories.GetContents(ctx, "Han-Ya-Jun", "gocn_news_set", "README.md", op)
+	repo, _, _, er := client.Repositories.GetContents(ctx, "Han-Ya-Jun", rep, path, op)
 	if er != nil || repo == nil {
 		fmt.Println(er)
 		return er
@@ -53,66 +76,13 @@ func PushGithub(token string, publish time.Time, contentList string) error {
 		log.Fatalln(err)
 		return err
 	}
-	oldContentList := strings.Split(string(decodeBytes), "## gocn_news_set_2019")
-	content.Content = []byte(oldContentList[0] + "\n" + "## gocn_news_set_2019" + "\n" + "### gocn_news_" + publish.Format("2006-01-02") + "\n" + contentList + "\n" + oldContentList[1])
-	_, _, err = client.Repositories.UpdateFile(ctx, "Han-Ya-Jun", "gocn_news_set", "README.md", content)
+	oldContentList := strings.Split(string(decodeBytes), sepTitle+" gocn_news_set_2019")
+	content.Content = []byte(oldContentList[0] + sepTitle + " gocn_news_set_2019" + "\n" + sep + title + publish.Format("2006-01-02") + "\n" + contentList + "\n" + oldContentList[1])
+	_, _, err = client.Repositories.UpdateFile(ctx, "Han-Ya-Jun", rep, path, content)
 	if err != nil {
 		println(err)
 		return err
 	}
-	////获取ref
-	//ref, _, err := client.Git.GetRef(ctx, "Han-Ya-Jun", "gocn_news_set", "heads/master")
-	//if err != nil && ref == nil {
-	//	println(err)
-	//	return err
-	//}
-	////获取commit
-	//com, _, err := client.Git.GetCommit(ctx, "Han-Ya-Jun", "gocn_news_set", *ref.Object.SHA)
-	//if err != nil && com == nil {
-	//	println(err)
-	//	return err
-	//}
-	//blob := &github.Blob{
-	//	Content:  github.String("add gocn news"),
-	//	Encoding: github.String("utf-8"),
-	//}
-	////生成blob
-	//result, _, err := client.Git.CreateBlob(ctx, "Han-Ya-Jun", "gocn_news_set", blob)
-	//if err != nil && result == nil {
-	//	println(err)
-	//	return err
-	//}
-	////生成tree
-	//te := github.TreeEntry{
-	//	SHA:  result.SHA,
-	//	Path: github.String("README.md"),
-	//	Mode: github.String("100644"),
-	//	Type: github.String("blob"),
-	//}
-	//t := []github.TreeEntry{te}
-	//tResult, _, err := client.Git.CreateTree(ctx, "Han-Ya-Jun", "gocn_news_set", *com.Tree.SHA, t)
-	//if err != nil && tResult == nil {
-	//	println(err)
-	//	return err
-	//}
-	////生成commit
-	//comm := &github.Commit{
-	//	Message: github.String(c),
-	//	Parents: []github.Commit{
-	//		github.Commit{
-	//			SHA: ref.Object.SHA,
-	//		},
-	//	},
-	//	Tree: &github.Tree{
-	//		SHA: tResult.SHA,
-	//	},
-	//}
-	//cResult, _, err := client.Git.CreateCommit(ctx, "Han-Ya-Jun", "gocn_news_set", comm)
-	//if err != nil && cResult == nil {
-	//	println(err)
-	//	return err
-	//}
-	//println(fmt.Sprintf("%v", cResult))
 	return nil
 
 }

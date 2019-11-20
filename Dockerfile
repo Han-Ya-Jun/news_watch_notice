@@ -1,9 +1,12 @@
-FROM alpine:3.6
+FROM golang:1.13 as build
 
-MAINTAINER hanyajun0123@gmail.com
-RUN apk update && apk add curl bash tree tzdata \
-    && cp -r -f /usr/share/zoneinfo/Hongkong /etc/localtime
-#RUN echo "Asia/Shanghai" > /etc/localtime
-ADD news_watch_notice /usr/bin/
-ADD news_watch_notice.sha /usr/bin/
-CMD ["news_watch_notice"]
+RUN go env -w GOPROXY=https://goproxy.cn,direct
+
+WORKDIR /go/cache
+ADD . .
+RUN go mod download
+
+
+RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-s -w" -installsuffix cgo -o news_watch_notice cmd/news_watch_notice.go
+FROM alpine:3.9 as prod
+CMD ["/news_watch_notice"]
