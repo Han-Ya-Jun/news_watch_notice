@@ -141,12 +141,14 @@ func main() {
 						sendObject.Content = content
 						fmt.Println(content)
 						err = client.SendMail(&sendObject)
+						fmt.Print(err)
 					}
 					if studyContent != "" {
 						sendObject.Object = "go语言中文网-每日资讯--" + time.Now().Format("2006-01-02")
 						sendObject.Content = studyContent
 						fmt.Println(studyContent)
 						err = client.SendMail(&sendObject)
+						fmt.Print(err)
 					}
 
 				}
