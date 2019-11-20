@@ -29,6 +29,7 @@ docker run -v /etc/localtime:/etc/localtime:ro -e NOTICE_TYPE=mail \ //采用邮
 ###### 效果
 ![image](http://cdn.hanyajun.com/wechat4.png)
 
+![2019-11-20-18-26-23](http://cdn.hanyajun.com/2019-11-20-18-26-23.png)
 
 ##### slack webhook 发送
 ```json
