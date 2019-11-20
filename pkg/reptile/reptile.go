@@ -128,6 +128,7 @@ func trimHtml(src string) string {
 func GetStudyGolangContent(publishTime time.Time) (e error, content string) {
 	var baseUrl string
 	c := colly.NewCollector()
+	c.SetRequestTimeout(time.Second * 60)
 	//t:=time.Now().Add(-time.Hour*time.Duration(24))
 	data := publishTime.Format("2006-01-02")
 	// Find and visit all links

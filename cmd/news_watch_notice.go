@@ -129,17 +129,17 @@ func main() {
 					if content != "" {
 						err = slack.SenMsgToSlack(webHookUrl, content, "gocn")
 						if err != nil {
-							println("push github gocn  err:%v", err)
+							println("push slack gocn  err:%v", err)
 						} else {
-							println("push  github  success")
+							println("push  slack  success")
 						}
 					}
 					if studyContent != "" {
 						err = slack.SenMsgToSlack(webHookUrl, studyContent, "")
 						if err != nil {
-							println("push github  golang  err:%v", err)
+							println("push slack  golang  err:%v", err)
 						} else {
-							println("push  github golang  success")
+							println("push  slack golang  success")
 						}
 					}
 
@@ -150,7 +150,7 @@ func main() {
 						fmt.Println(content)
 						err = client.SendMail(&sendObject)
 						if err != nil {
-							println("send mail err:%v", err)
+							fmt.Printf("send mail err:%v", err.Error())
 						} else {
 							println("send mail success")
 						}
@@ -161,9 +161,9 @@ func main() {
 						fmt.Println(studyContent)
 						err = client.SendMail(&sendObject)
 						if err != nil {
-							println("send mail err:%v", err)
+							fmt.Printf("send mail err:%v", err.Error())
 						} else {
-							println("send mail success")
+							fmt.Print("send mail success")
 						}
 					}
 
