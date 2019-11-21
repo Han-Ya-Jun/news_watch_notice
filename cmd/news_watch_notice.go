@@ -80,8 +80,9 @@ func main() {
 			var contentList []string
 			if !gocnFlag || gocnDateTime != nowDateTime {
 				err, contentList = reptile.GetNewsContent(time.Now())
-				if err != nil {
+				if err != nil || len(contentList) == 0 {
 					fmt.Printf("get newsList err:%v", err)
+					gocnFlag = false
 				} else {
 					gocnFlag = true
 					gocnDateTime = time.Now().Format("2006-01-02")
@@ -96,7 +97,8 @@ func main() {
 			}
 			if !studyGolangFlag || studyDateTime != nowDateTime {
 				err, studyContent = reptile.GetStudyGolangContent(time.Now())
-				if err != nil {
+				if err != nil || studyContent == "" {
+					studyGolangFlag = false
 					fmt.Printf("get newsList err:%v", err)
 				} else {
 					studyGolangFlag = true
