@@ -3,7 +3,6 @@ package reptile
 import (
 	"fmt"
 	"io/ioutil"
-	"news_watch_notice/pkg/github"
 	"strings"
 	"testing"
 	"time"
@@ -19,7 +18,7 @@ import (
 func Test_GetStudyGolangContent(t *testing.T) {
 	var result string
 
-	for i := 0; i < 17; i++ {
+	for i := 0; i < 4; i++ {
 		if contents, err := ioutil.ReadFile("gocn_news_2019.md"); err == nil {
 			//因为contents是[]byte类型，直接转换成string类型后会多一行空格,需要使用strings.Replace替换换行符
 			result = strings.Replace(string(contents), "\n", "", 1)
@@ -41,15 +40,9 @@ func Test_GetStudyGolangContent(t *testing.T) {
 }
 
 func Test_GetNewsContent(t *testing.T) {
-	publishTime := time.Now().Add(time.Hour * -24)
+	publishTime := time.Now()
 	_, contents := GetNewsContent(publishTime)
 	fmt.Println(contents)
-	githubContent := ""
-	for _, c := range contents {
-		githubContent = githubContent + "- " + c
-	}
-	pushGithub := github.PushGithub("966a60e89816d878afa8691710b21fc4f1f22919", publishTime, githubContent, "")
-	fmt.Println(pushGithub)
 
 }
 

@@ -61,36 +61,46 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 			rm, _ := regexp.Compile(reg)
 			title2, _ := regexp.Compile(title)
 			matched := title2.FindAllStringSubmatchIndex(contentAll, -1)
-			exitMap := make(map[string][]int)
-			var matchedNew [][]int
-			for _, match := range matched {
-				fmt.Println(match)
-				fmt.Println(contentAll[match[0]:match[1]])
-				if _, ok := exitMap[contentAll[match[0]:match[1]]]; !ok {
-					exitMap[contentAll[match[0]:match[1]]] = match
-					matchedNew = append(matchedNew, match)
-				}
-			}
-			fmt.Println(matched)
-			indexList := rm.FindAllStringSubmatchIndex(contentAll, -1)
-			fmt.Println(indexList)
-			for i, v := range matchedNew {
-				if v[0] <= index {
-					if i < len(matchedNew)-1 {
-						content := contentAll[v[0]:matchedNew[i+1][0]]
-						contentList = append(contentList, content+"\n")
-					} else {
-						content := contentAll[v[0]:index]
-						contentList = append(contentList, content+"\n")
-						break
+			if len(matched) >= 5 {
+				exitMap := make(map[string][]int)
+				var matchedNew [][]int
+				for _, match := range matched {
+					fmt.Println(match)
+					fmt.Println(contentAll[match[0]:match[1]])
+					if _, ok := exitMap[contentAll[match[0]:match[1]]]; !ok {
+						exitMap[contentAll[match[0]:match[1]]] = match
+						matchedNew = append(matchedNew, match)
 					}
 				}
+				fmt.Println(matched)
+				indexList := rm.FindAllStringSubmatchIndex(contentAll, -1)
+				fmt.Println(indexList)
+				for i, v := range matchedNew {
+					if v[0] <= index {
+						if i < len(matchedNew)-1 {
+							content := contentAll[v[0]:matchedNew[i+1][0]]
+							contentList = append(contentList, content+"\n")
+						} else {
+							content := contentAll[v[0]:index]
+							contentList = append(contentList, content+"\n")
+							break
+						}
+					}
+				}
+
+			} else {
+				fmt.Println("*********************************")
+				e.ForEach("li", func(i int, m *colly.HTMLElement) {
+					contentList = append(contentList, fmt.Sprintf("%v.", i+1)+m.Text+"\n")
+				})
+
 			}
 			for _, content := range contentList {
 				fmt.Println(content)
 			}
 		}
 	})
+
 	b.OnRequest(func(r *colly.Request) {
 		fmt.Println("Visiting", r.URL)
 	})
