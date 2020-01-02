@@ -90,8 +90,8 @@ func PushGithub(token string, publish time.Time, contentList string, from string
 		log.Fatalln(err)
 		return err
 	}
-	oldContentList := strings.Split(string(decodeBytes), sepTitle+" gocn_news_set_2019")
-	content.Content = []byte(oldContentList[0] + sepTitle + " gocn_news_set_2019" + "\n" + sep + title + publish.Format("2006-01-02") + "\n" + contentList + "\n" + oldContentList[1])
+	oldContentList := strings.Split(string(decodeBytes), sepTitle+" gocn_news_set_2020")
+	content.Content = []byte(oldContentList[0] + sepTitle + " gocn_news_set_2020" + "\n" + sep + title + publish.Format("2006-01-02") + "\n" + contentList + "\n" + oldContentList[1])
 	_, _, err = client.Repositories.UpdateFile(ctx, "Han-Ya-Jun", rep, path, content)
 	if err != nil {
 		println(err)
