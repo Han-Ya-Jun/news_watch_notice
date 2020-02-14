@@ -24,9 +24,9 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 	data := publishTime.Format("2006-01-02")
 	dateOther := publishTime.Format("2006-01-2")
 	// Find and visit all links
-	c.OnHTML("div > h4 > a", func(e *colly.HTMLElement) {
+	c.OnHTML("div.title.media-heading > a", func(e *colly.HTMLElement) {
 		if strings.Contains(e.Text, data) {
-			baseUrl = e.Attr("href")
+			baseUrl = "https://gocn.vip" + e.Attr("href")
 			fmt.Printf("Link found: %q -> %s\n", e.Text, baseUrl)
 		} else if strings.Contains(e.Text, dateOther) {
 			baseUrl = e.Attr("href")
@@ -36,7 +36,7 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 	c.OnRequest(func(r *colly.Request) {
 		fmt.Println("Visiting", r.URL)
 	})
-	e = c.Visit("https://gocn.vip/question/category-14")
+	e = c.Visit("https://gocn.vip/topics/node18")
 
 	if e != nil {
 		return e, nil
@@ -48,7 +48,7 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 
 	// Find and visit all links
 	var contentList []string
-	b.OnHTML("div.mod-body > div", func(e *colly.HTMLElement) {
+	b.OnHTML("div.card-body.markdown.markdown-toc", func(e *colly.HTMLElement) {
 		if e.Text != "" {
 			contentAll := e.Text
 			reg := "[a-zA-z]+://[^\\s]*"
@@ -152,7 +152,7 @@ func GetStudyGolangContent(publishTime time.Time) (e error, content string) {
 	c.OnRequest(func(r *colly.Request) {
 		fmt.Println("Visiting", r.URL)
 	})
-	e = c.Visit("https://studygolang.com/go/godaily")
+	e = c.Visit("https://gocn.vip/topics/node18")
 
 	if e != nil {
 		return e, ""

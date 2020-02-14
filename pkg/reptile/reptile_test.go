@@ -40,7 +40,7 @@ func Test_GetStudyGolangContent(t *testing.T) {
 }
 
 func Test_GetNewsContent(t *testing.T) {
-	publishTime := time.Now()
+	publishTime := time.Now().Add(time.Hour * -24)
 	_, contents := GetNewsContent(publishTime)
 	fmt.Println(contents)
 
