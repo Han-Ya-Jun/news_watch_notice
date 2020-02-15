@@ -152,7 +152,7 @@ func GetStudyGolangContent(publishTime time.Time) (e error, content string) {
 	c.OnRequest(func(r *colly.Request) {
 		fmt.Println("Visiting", r.URL)
 	})
-	e = c.Visit("https://gocn.vip/topics/node18")
+	e = c.Visit("https://studygolang.com/go/godaily")
 
 	if e != nil {
 		return e, ""
