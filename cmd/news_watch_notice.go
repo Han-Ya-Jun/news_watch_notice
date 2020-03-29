@@ -169,13 +169,13 @@ func main() {
 					}
 
 					if gopherDailyContent != "" {
-						er := github.PushGithub(githubToken, time.Now(), studyContent, "gopherDaily", "gocn")
+						er := github.PushGithub(githubToken, time.Now(), gopherDailyContent, "gopherDaily", "gocn")
 						if er != nil {
 							fmt.Printf("push to github err:%v", er.Error())
 						} else {
 							fmt.Printf("push to golang_notes success")
 						}
-						er = github.PushGithub(githubToken, time.Now(), studyContent, "gopherDaily", "golang_notes")
+						er = github.PushGithub(githubToken, time.Now(), gopherDailyContent, "gopherDaily", "golang_notes")
 						if er != nil {
 							fmt.Printf("push to github err:%v", er.Error())
 						} else {
@@ -196,7 +196,7 @@ func main() {
 						}
 					}
 					if studyContent != "" {
-						err = slack.SenMsgToSlack(webHookUrl, studyContent, "")
+						err = slack.SenMsgToSlack(webHookUrl, studyContent, "goStudy")
 						if err != nil {
 							println("push slack  golang  err:%v", err)
 						} else {
@@ -204,7 +204,7 @@ func main() {
 						}
 					}
 					if gopherDailyContent != "" {
-						err = slack.SenMsgToSlack(webHookUrl, gopherDailyContent, "")
+						err = slack.SenMsgToSlack(webHookUrl, gopherDailyContent, "gopherDaily")
 						if err != nil {
 							println("push slack  golang  err:%v", err)
 						} else {

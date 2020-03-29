@@ -28,7 +28,7 @@ func SenMsgToSlack(webHookUrl string, content string, from string) error {
 		title = "<!channel>" + "GOCN每日新闻--" + time.Now().Format("2006-01-02") + " :smile:\n"
 		authorLink = "https://gocn.vip/explore/category-14"
 		authorName = "GoCn"
-	} else {
+	} else if from == "goStudy" {
 		renderer := &slackdown.Renderer{}
 		md := bf.New(bf.WithRenderer(renderer), bf.WithExtensions(bf.CommonExtensions))
 		ast := md.Parse([]byte(content))
@@ -36,6 +36,14 @@ func SenMsgToSlack(webHookUrl string, content string, from string) error {
 		authorLink = "https://studygolang.com/go/godaily"
 		title = "<!channel>" + "go每日资讯--" + time.Now().Format("2006-01-02") + " :smile:\n"
 		authorName = "Go语言中文网"
+	} else {
+		renderer := &slackdown.Renderer{}
+		md := bf.New(bf.WithRenderer(renderer), bf.WithExtensions(bf.CommonExtensions))
+		ast := md.Parse([]byte(content))
+		text = string(renderer.Render(ast))
+		authorLink = "https://gopher-daily.com/"
+		title = "<!channel>" + "gopherDaily--" + time.Now().Format("2006-01-02") + " :smile:\n"
+		authorName = "Gopher Daily"
 	}
 	fmt.Println(text)
 	attachment := slack.Attachment{
