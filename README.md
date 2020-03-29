@@ -1,4 +1,4 @@
-#### 爬取[GoCn每日新闻](https://gocn.vip/topics/node18)和[go语言中文网(每日资讯)](https://studygolang.com/go/godaily)并推送到微信/邮箱/slack
+#### 爬取[GoCn每日新闻](https://gocn.vip/topics/node18)和[go语言中文网(每日资讯)](https://studygolang.com/go/godaily)和[Gopher Daily](https://gopher-daily.com/)并推送到微信/邮箱/slack
 ![image](http://cdn.hanyajun.com/news_watch.png)
 
 ![2019-11-20-18-21-29](http://cdn.hanyajun.com/2019-11-20-18-21-29.png)
