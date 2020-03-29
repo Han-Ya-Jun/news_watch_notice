@@ -118,9 +118,9 @@ func main() {
 					gopherDailyFlag = true
 					gopherDateTime = time.Now().Format("2006-01-02")
 					for _, c := range contentList {
-						if typeFlag && !slackFlag {
-							c = c + "</br>"
-						}
+						//if typeFlag && !slackFlag {
+						//	c = c + "</br>"
+						//}
 						gopherDailyContent = gopherDailyContent + c
 						fmt.Println(c)
 					}
