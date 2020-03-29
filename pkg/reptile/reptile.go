@@ -122,7 +122,7 @@ func GetGopherDailyContent(publishTime time.Time) (e error, content []string) {
 	c.OnHTML("body > div.container > div > div.offset-lg-1.col > ol", func(e *colly.HTMLElement) {
 		e.ForEach("li", func(i int, e *colly.HTMLElement) {
 			fmt.Println(e.Text)
-			contentList = append(contentList, fmt.Sprintf("%v.", i+1)+e.Text+"\n")
+			contentList = append(contentList, fmt.Sprintf("- %v.", i+1)+e.Text+"\n")
 		})
 	})
 	c.OnRequest(func(r *colly.Request) {

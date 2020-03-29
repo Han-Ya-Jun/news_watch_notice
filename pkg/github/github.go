@@ -35,7 +35,7 @@ func PushGithub(token string, publish time.Time, contentList string, from string
 		rep = "gocn_news_set"
 		path = "README.md"
 		sepTitle = "#"
-		title = from + "_"
+		title = " " + from + "_"
 		sep = "##"
 		c = fmt.Sprintf("add %v--", from) + publish.Format("2006-01-02")
 	} else if target == "golang_notes" {
@@ -44,7 +44,7 @@ func PushGithub(token string, publish time.Time, contentList string, from string
 		path = "gocn_news_" + fmt.Sprintf("%d", time.Now().Year()) + ".md"
 		sepTitle = "#"
 		sep = "##"
-		title = from + "_"
+		title = " " + from + "_"
 	}
 	sha := ""
 	content := &github.RepositoryContentFileOptions{
