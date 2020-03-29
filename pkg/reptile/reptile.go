@@ -3,10 +3,10 @@ package reptile
 import (
 	"errors"
 	"fmt"
-	"github.com/gocolly/colly"
-	"regexp"
 	"strings"
 	"time"
+
+	"github.com/gocolly/colly"
 )
 
 /*
@@ -48,57 +48,10 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 
 	// Find and visit all links
 	var contentList []string
-	b.OnHTML("div.card-body.markdown.markdown-toc", func(e *colly.HTMLElement) {
-		if e.Text != "" {
-			contentAll := e.Text
-			reg := "[a-zA-z]+://[^\\s]*"
-			title := "[1-5]\\."
-			var index int
-			if strings.Contains(contentAll, "编辑:") {
-				index = strings.Index(contentAll, "编辑:")
-				contentAll = contentAll[:index]
-			}
-			rm, _ := regexp.Compile(reg)
-			title2, _ := regexp.Compile(title)
-			matched := title2.FindAllStringSubmatchIndex(contentAll, -1)
-			if len(matched) >= 5 {
-				exitMap := make(map[string][]int)
-				var matchedNew [][]int
-				for _, match := range matched {
-					fmt.Println(match)
-					fmt.Println(contentAll[match[0]:match[1]])
-					if _, ok := exitMap[contentAll[match[0]:match[1]]]; !ok {
-						exitMap[contentAll[match[0]:match[1]]] = match
-						matchedNew = append(matchedNew, match)
-					}
-				}
-				fmt.Println(matched)
-				indexList := rm.FindAllStringSubmatchIndex(contentAll, -1)
-				fmt.Println(indexList)
-				for i, v := range matchedNew {
-					if v[0] <= index {
-						if i < len(matchedNew)-1 {
-							content := contentAll[v[0]:matchedNew[i+1][0]]
-							contentList = append(contentList, content+"\n")
-						} else {
-							content := contentAll[v[0]:index]
-							contentList = append(contentList, content+"\n")
-							break
-						}
-					}
-				}
-
-			} else {
-				fmt.Println("*********************************")
-				e.ForEach("li", func(i int, m *colly.HTMLElement) {
-					contentList = append(contentList, fmt.Sprintf("%v.", i+1)+m.Text+"\n")
-				})
-
-			}
-			for _, content := range contentList {
-				fmt.Println(content)
-			}
-		}
+	b.OnHTML("div.card-body.markdown.markdown-toc > ol ", func(e *colly.HTMLElement) {
+		e.ForEach("li", func(i int, e *colly.HTMLElement) {
+			contentList = append(contentList, fmt.Sprintf("%v.", i+1)+e.Text+"\n")
+		})
 	})
 
 	b.OnRequest(func(r *colly.Request) {
@@ -112,29 +65,7 @@ func GetNewsContent(publishTime time.Time) (e error, content []string) {
 	return nil, contentList
 }
 
-func trimHtml(src string) string {
-	//将HTML标签全转换成小写
-	re, _ := regexp.Compile("\\<[\\S\\s]+?\\>")
-	src = re.ReplaceAllStringFunc(src, strings.ToLower)
-	//去除STYLE
-	re, _ = regexp.Compile("\\<style[\\S\\s]+?\\</style\\>")
-	src = re.ReplaceAllString(src, "")
-	//去除SCRIPT
-	re, _ = regexp.Compile("\\<script[\\S\\s]+?\\</script\\>")
-	src = re.ReplaceAllString(src, "")
-	//去除所有尖括号内的HTML代码，并换成换行符
-	re, _ = regexp.Compile("\\<[\\S\\s]+?\\>")
-	src = re.ReplaceAllString(src, "")
-	//去除连续的换行符
-	re, _ = regexp.Compile("\\s{2,}")
-	src = re.ReplaceAllString(src, "")
-
-	re, _ = regexp.Compile("\\s")
-	src = re.ReplaceAllString(src, "")
-	return strings.TrimSpace(src)
-}
-
-// 爬虫CoNews网页
+// 爬虫go语言中文网网页
 func GetStudyGolangContent(publishTime time.Time) (e error, content string) {
 	var baseUrl string
 	c := colly.NewCollector()
@@ -177,4 +108,32 @@ func GetStudyGolangContent(publishTime time.Time) (e error, content string) {
 		return e, ""
 	}
 	return nil, content
+}
+
+//
+func GetGopherDailyContent(publishTime time.Time) (e error, content []string) {
+	baseUrl := "https://gopher-daily.com/issues/202003/issue-%v.md"
+	c := colly.NewCollector()
+	//t:=time.Now().Add(-time.Hour*time.Duration(24))
+	data := publishTime.Format("20060102")
+	url := fmt.Sprintf(baseUrl, data)
+	// Find and visit all links
+	var contentList []string
+	c.OnHTML("body > div.container > div > div.offset-lg-1.col > ol", func(e *colly.HTMLElement) {
+		e.ForEach("li", func(i int, e *colly.HTMLElement) {
+			fmt.Println(e.Text)
+			contentList = append(contentList, fmt.Sprintf("%v.", i+1)+e.Text+"\n")
+		})
+	})
+	c.OnRequest(func(r *colly.Request) {
+		fmt.Println("Visiting", r.URL)
+	})
+	e = c.Visit(url)
+	if e != nil {
+		return e, nil
+	}
+	if len(contentList) == 0 {
+		return errors.New("news not update"), nil
+	}
+	return nil, contentList
 }

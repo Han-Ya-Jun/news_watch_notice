@@ -18,7 +18,7 @@ import (
 * @Name:github
 * @Function: 抓取推送到github上去
  */
-func PushGithub(token string, publish time.Time, contentList string, from string) error {
+func PushGithub(token string, publish time.Time, contentList string, from string, target string) error {
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: token},
@@ -31,36 +31,21 @@ func PushGithub(token string, publish time.Time, contentList string, from string
 	var sep string
 	var title string
 	var c string
-	if from == "gocn" {
+	if target == "gocn" {
 		rep = "gocn_news_set"
 		path = "README.md"
 		sepTitle = "#"
-		title = " gocn_news_"
+		title = from + "_"
 		sep = "##"
-		c = "add gocn news--" + publish.Format("2006-01-02")
-	} else if from == "golang_notes" {
-		c = "add gocn news--" + publish.Format("2006-01-02")
+		c = fmt.Sprintf("add %v--", from) + publish.Format("2006-01-02")
+	} else if target == "golang_notes" {
+		c = fmt.Sprintf("add %v--", from) + publish.Format("2006-01-02")
 		rep = "golang-notes"
 		path = "gocn_news_" + fmt.Sprintf("%d", time.Now().Year()) + ".md"
 		sepTitle = "#"
 		sep = "##"
-		title = " gocn_news_"
-	} else if from == "gocn_golang" {
-		rep = "gocn_news_set"
-		path = "README.md"
-		sepTitle = "#"
-		sep = "##"
-		c = "add go语言中文网(每日资讯)_" + publish.Format("2006-01-02")
-		title = " go语言中文网(每日资讯)_"
-	} else {
-		rep = "golang-notes"
-		path = "gocn_news_" + fmt.Sprintf("%d", time.Now().Year()) + ".md"
-		sepTitle = "#"
-		sep = "##"
-		c = "add go语言中文网(每日资讯)_" + publish.Format("2006-01-02")
-		title = " go语言中文网(每日资讯)_"
+		title = from + "_"
 	}
-
 	sha := ""
 	content := &github.RepositoryContentFileOptions{
 		Message: &c,

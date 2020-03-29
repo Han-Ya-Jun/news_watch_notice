@@ -67,14 +67,17 @@ func main() {
 
 	var gocnDateTime string
 	var studyDateTime string
+	var gopherDateTime string
 	var totalDateTime string
 	var gocnFlag bool
 	var studyGolangFlag bool
+	var gopherDailyFlag bool
 	var flag bool
 	for {
 		/* 爬虫获取新闻 */
 		var content string
 		var studyContent string
+		var gopherDailyContent string
 		nowDateTime := time.Now().Format("2006-01-02")
 		if !flag || totalDateTime != nowDateTime {
 			var contentList []string
@@ -105,25 +108,44 @@ func main() {
 					studyDateTime = time.Now().Format("2006-01-02")
 				}
 			}
-			flag = gocnFlag && studyGolangFlag
+			if !gopherDailyFlag || gopherDateTime != nowDateTime {
+				var contentList []string
+				err, contentList = reptile.GetGopherDailyContent(time.Now())
+				if err != nil || len(contentList) == 0 {
+					fmt.Printf("get gopher daily content err:%v", err)
+					gopherDailyFlag = false
+				} else {
+					gopherDailyFlag = true
+					gopherDateTime = time.Now().Format("2006-01-02")
+					for _, c := range contentList {
+						if typeFlag && !slackFlag {
+							c = c + "</br>"
+						}
+						gopherDailyContent = gopherDailyContent + c
+						fmt.Println(c)
+					}
+				}
+			}
+
+			flag = gocnFlag && studyGolangFlag && gopherDailyFlag
 			if flag {
 				totalDateTime = time.Now().Format("2006-01-02")
 			}
 			/* 推送消息 */
-			if content != "" || studyContent != "" {
+			if content != "" || studyContent != "" || gopherDailyContent != "" {
 				if githubPushFlag {
 					if content != "" {
 						githubContent := ""
 						for _, c := range contentList {
 							githubContent = githubContent + "- " + c
 						}
-						er := github.PushGithub(githubToken, time.Now(), githubContent, "gocn")
+						er := github.PushGithub(githubToken, time.Now(), githubContent, "gocn_news", "gocn")
 						if er != nil {
 							fmt.Printf("push to github err:%v", er.Error())
 						} else {
 							fmt.Printf("push gocn_news_set success\n")
 						}
-						er = github.PushGithub(githubToken, time.Now(), githubContent, "golang_notes")
+						er = github.PushGithub(githubToken, time.Now(), githubContent, "gocn_news", "golang_notes")
 						if er != nil {
 							fmt.Printf("push to github err:%v", er.Error())
 						} else {
@@ -131,19 +153,34 @@ func main() {
 						}
 					}
 					if studyContent != "" {
-						er := github.PushGithub(githubToken, time.Now(), studyContent, "study_golang")
+						er := github.PushGithub(githubToken, time.Now(), studyContent, "go语言中文网(每日资讯)", "gocn")
 						if er != nil {
 							fmt.Printf("push to github err:%v", er.Error())
 						} else {
 							fmt.Printf("push to golang_notes success")
 						}
-						er = github.PushGithub(githubToken, time.Now(), studyContent, "gocn_golang")
+						er = github.PushGithub(githubToken, time.Now(), studyContent, "go语言中文网(每日资讯)", "golang_notes")
 						if er != nil {
 							fmt.Printf("push to github err:%v", er.Error())
 						} else {
 							fmt.Printf("push to gocn_golang  success")
 						}
 
+					}
+
+					if gopherDailyContent != "" {
+						er := github.PushGithub(githubToken, time.Now(), studyContent, "gopherDaily", "gocn")
+						if er != nil {
+							fmt.Printf("push to github err:%v", er.Error())
+						} else {
+							fmt.Printf("push to golang_notes success")
+						}
+						er = github.PushGithub(githubToken, time.Now(), studyContent, "gopherDaily", "golang_notes")
+						if er != nil {
+							fmt.Printf("push to github err:%v", er.Error())
+						} else {
+							fmt.Printf("push to gocn_golang  success")
+						}
 					}
 
 				}
@@ -160,6 +197,14 @@ func main() {
 					}
 					if studyContent != "" {
 						err = slack.SenMsgToSlack(webHookUrl, studyContent, "")
+						if err != nil {
+							println("push slack  golang  err:%v", err)
+						} else {
+							println("push  slack golang  success")
+						}
+					}
+					if gopherDailyContent != "" {
+						err = slack.SenMsgToSlack(webHookUrl, gopherDailyContent, "")
 						if err != nil {
 							println("push slack  golang  err:%v", err)
 						} else {
@@ -191,6 +236,18 @@ func main() {
 							fmt.Print("send mail success")
 						}
 					}
+					if gopherDailyContent != "" {
+						sendObject.Object = "gopherDaily--" + time.Now().Format("2006-01-02")
+						fmt.Println(gopherDailyContent)
+						result := md.Run([]byte(gopherDailyContent))
+						sendObject.Content = string(result)
+						err = client.SendMail(&sendObject)
+						if err != nil {
+							fmt.Printf("send mail err:%v", err.Error())
+						} else {
+							fmt.Print("send mail success")
+						}
+					}
 
 				}
 				if err != nil {
@@ -199,7 +256,7 @@ func main() {
 			}
 
 		}
-		fmt.Printf("flag:%v,gocnDateTime:%v,studyDateTime:%v,totalDateTime:%v,gocnFlag:%v,studyGolangFlag:%v\n", flag, gocnDateTime, studyDateTime, totalDateTime, gocnFlag, studyGolangFlag)
+		fmt.Printf("flag:%v,gocnDateTime:%v,studyDateTime:%v,gopherDateTime:%v,totalDateTime:%v,gocnFlag:%v,studyGolangFlag:%v,gopherDailyFlag:%v\n", flag, gocnDateTime, studyDateTime, gopherDateTime, totalDateTime, gocnFlag, studyGolangFlag, gopherDailyFlag)
 		<-t
 	}
 
