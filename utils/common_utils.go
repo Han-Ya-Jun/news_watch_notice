@@ -17,6 +17,7 @@ const (
 	TYPENOCTISLACK = "slack"
 	TYPENOCDISABLE = "disable"
 	GITHUBPUSHFLAG = "push"
+	WECHATPUSHFLAG = "push"
 )
 
 //去掉""
