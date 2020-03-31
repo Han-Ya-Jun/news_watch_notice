@@ -28,6 +28,8 @@ func main() {
 	var sendObject mail.SendObject
 	var githubPushFlag bool
 	var githubToken string
+
+	// notice
 	if noticeType == utils.TYPENOCICEMAIL {
 		typeFlag = true
 		host := utils.GetValueFromEnv("NOTICE_MAIL_HOST")
@@ -48,6 +50,8 @@ func main() {
 		typeFlag = true
 		slackFlag = true
 		webHookUrl = utils.GetValueFromEnv("NOTICE_SLACK_WEB_HOOK_URL")
+	} else if noticeType == utils.TYPENOCDISABLE {
+		// nothing
 	} else {
 		/* 登陆微信 */
 		err, loginMap = wechat.WechatLogin()
@@ -59,6 +63,8 @@ func main() {
 		}
 		userList = wechat.GetSendUsers(loginMap, u)
 	}
+
+	// push
 	if utils.GetValueFromEnv("GITHUB_PUSH") == utils.GITHUBPUSHFLAG {
 		githubPushFlag = true
 		githubToken = utils.GetValueFromEnv("GITHUB_TOKEN")
