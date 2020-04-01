@@ -112,23 +112,28 @@ func GetStudyGolangContent(publishTime time.Time) (e error, content string) {
 
 //
 func GetGopherDailyContent(publishTime time.Time) (e error, content []string) {
-	baseUrl := "https://gopher-daily.com/issues/202003/issue-%v.md"
+	baseUrl := "https://gopher-daily.com/issues/last"
 	c := colly.NewCollector()
 	//t:=time.Now().Add(-time.Hour*time.Duration(24))
-	data := publishTime.Format("20060102")
-	url := fmt.Sprintf(baseUrl, data)
+	//data := publishTime.Format("20060102")
 	// Find and visit all links
 	var contentList []string
-	c.OnHTML("body > div.container > div > div.offset-lg-1.col > ol", func(e *colly.HTMLElement) {
-		e.ForEach("li", func(i int, e *colly.HTMLElement) {
-			fmt.Println(e.Text)
-			contentList = append(contentList, fmt.Sprintf("- %v.", i+1)+e.Text+"\n")
-		})
+
+	c.OnHTML("body > div.container > div > div.offset-lg-1.col", func(e *colly.HTMLElement) {
+		if strings.Contains(e.ChildText("p"), publishTime.Format("2006.01.02")) {
+			e.ForEach("ol>li", func(i int, e *colly.HTMLElement) {
+				fmt.Println(e.Text)
+				if strings.Contains(e.Text, publishTime.Format("2006.01.02")) {
+					contentList = append(contentList, fmt.Sprintf("- %v.", i+1)+e.Text+"\n")
+				}
+			})
+		}
+
 	})
 	c.OnRequest(func(r *colly.Request) {
 		fmt.Println("Visiting", r.URL)
 	})
-	e = c.Visit(url)
+	e = c.Visit(baseUrl)
 	if e != nil {
 		return e, nil
 	}
