@@ -28,6 +28,11 @@ func main() {
 	var sendObject mail.SendObject
 	var githubPushFlag bool
 	var githubToken string
+	var wechatPushFlag bool
+	var wechatAppId string
+	var wechatAppSecret string
+
+	// notice
 	if noticeType == utils.TYPENOCICEMAIL {
 		typeFlag = true
 		host := utils.GetValueFromEnv("NOTICE_MAIL_HOST")
@@ -48,6 +53,8 @@ func main() {
 		typeFlag = true
 		slackFlag = true
 		webHookUrl = utils.GetValueFromEnv("NOTICE_SLACK_WEB_HOOK_URL")
+	} else if noticeType == utils.TYPENOCDISABLE {
+		// nothing
 	} else {
 		/* 登陆微信 */
 		err, loginMap = wechat.WechatLogin()
@@ -59,10 +66,18 @@ func main() {
 		}
 		userList = wechat.GetSendUsers(loginMap, u)
 	}
+
+	// push
 	if utils.GetValueFromEnv("GITHUB_PUSH") == utils.GITHUBPUSHFLAG {
 		githubPushFlag = true
 		githubToken = utils.GetValueFromEnv("GITHUB_TOKEN")
 	}
+	if utils.GetValueFromEnv("WECHAT_PUSH") == utils.WECHATPUSHFLAG {
+		wechatPushFlag = true
+		wechatAppId = utils.GetValueFromEnv("WECHAT_APP_ID")
+		wechatAppSecret = utils.GetValueFromEnv("WECHAT_APP_SECRET")
+	}
+
 	t := time.Tick(time.Minute * 30)
 
 	var gocnDateTime string
@@ -184,6 +199,27 @@ func main() {
 					}
 
 				}
+
+				if wechatPushFlag {
+					msg := "第" + time.Now().Format("2006-01-02") + "期" + "\n\n"
+					if content != "" {
+						msg += "GOCN每日新闻" + "\n\n" + content + "\n\n\n"
+					}
+
+					if studyContent != "" {
+						msg += "GO语言中文网每日资讯" + "\n\n" + studyContent + "\n\n\n"
+					}
+
+					if gopherDailyContent != "" {
+						msg += "Gopher Daily" + "\n\n" + gopherDailyContent
+					}
+
+					err = wechat.WeChatPush(wechatAppId, wechatAppSecret, msg)
+					if err != nil {
+						fmt.Println("wechat push:", err)
+					}
+				}
+
 				if !typeFlag {
 					err = wechat.WechatSendMsgs(content, userList, loginMap)
 				} else if slackFlag {

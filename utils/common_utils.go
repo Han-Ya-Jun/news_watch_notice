@@ -15,7 +15,9 @@ import (
 const (
 	TYPENOCICEMAIL = "mail"
 	TYPENOCTISLACK = "slack"
+	TYPENOCDISABLE = "disable"
 	GITHUBPUSHFLAG = "push"
+	WECHATPUSHFLAG = "push"
 )
 
 //去掉""

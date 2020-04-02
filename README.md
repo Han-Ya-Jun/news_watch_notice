@@ -15,6 +15,21 @@ docker run -v /etc/localtime:/etc/localtime:ro \
 ![image](http://cdn.hanyajun.com/20190530_233034_wechat8.png)
 
 **微信通知有个缺点，就是网页版微信只能有一个终端登录**
+
+##### 通过微信公众平台(测试号)推送
+
+访问 https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
+微信扫一扫开通并关注测试号，填写 appid 和 appsecret 运行即可在订阅号中找到该测试号推送的消息
+
+```bash
+docker run -d -v /etc/localtime:/etc/localtime:ro \
+    -e NOTICE_TYPE=disable \
+    -e WECHAT_PUSH=push \
+    -e WECHAT_APP_ID=wxf123456789 \
+    -e WECHAT_APP_SECRET=adcdefg123456789 \
+    hanyajun/news_watch_notice
+```
+
 ##### 通过邮箱推送
 
 ```
