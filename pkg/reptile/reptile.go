@@ -122,8 +122,7 @@ func GetGopherDailyContent(publishTime time.Time) (e error, content []string) {
 	c.OnHTML("body > div.container > div > div.offset-lg-1.col", func(e *colly.HTMLElement) {
 		if strings.Contains(e.ChildText("p"), publishTime.Format("2006.01.02")) {
 			e.ForEach("ol>li", func(i int, e *colly.HTMLElement) {
-				fmt.Println(e.Text)
-				if strings.Contains(e.Text, publishTime.Format("2006.01.02")) {
+				if e.Text != "" {
 					contentList = append(contentList, fmt.Sprintf("- %v.", i+1)+e.Text+"\n")
 				}
 			})
