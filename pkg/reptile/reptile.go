@@ -94,7 +94,7 @@ func GetStudyGolangContent(publishTime time.Time) (e error, content string) {
 	b := colly.NewCollector()
 
 	// Find and visit all links
-	b.OnHTML("#wrapper > div > div.row > div.col-md-9.col-sm-6 > div.page > div:nth-child(1) > div:nth-child(2) > div", func(e *colly.HTMLElement) {
+	b.OnHTML("#wrapper > div > div.row > div.col-md-9.col-sm-6 > div.page > div:nth-child(1) > div:nth-child(2) > div.content.markdown-body", func(e *colly.HTMLElement) {
 		if e.Text != "" {
 			content = e.Text
 		}
