@@ -6,8 +6,7 @@ require (
 	github.com/Han-Ya-Jun/qrcode2console v0.0.0-20190430081741-6890f5f0fdf5
 	github.com/PuerkitoBio/goquery v1.5.0 // indirect
 	github.com/antchfx/htmlquery v1.1.0 // indirect
-	github.com/antchfx/xmlquery v1.1.0 // indirect
-	github.com/antchfx/xpath v1.1.0 // indirect
+	github.com/antchfx/xmlquery v1.3.1 // indirect
 	github.com/disintegration/imaging v1.6.1 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/gocolly/colly v1.2.0
